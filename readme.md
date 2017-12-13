@@ -2,7 +2,7 @@
 
 **[Fela][fela] plugin for [Vue][vue]**
 
-- [Install](#install)
+- [Installation](#installation)
 - [Usage](#usage)
     - [Fela Renderer Configuration](#fela-renderer-configuration)
     - [Custom Fela Renderer](#custom-fela-renderer)
@@ -12,7 +12,7 @@
     - [Rendering Styles](#rendering-styles)
         - [Fela Provider](#fela-provider)
 
-## Install
+## Installation
 
 ```bash
 yarn add vue-fela-plugin
