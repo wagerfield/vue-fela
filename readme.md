@@ -80,7 +80,7 @@ This is useful if you want to create and keep a reference to the `renderer` inst
 
 Since a Fela Renderer instance is added to Vue's prototype on the `$fela` property, you can reference and use it within a Vue component instance via `this.$fela`.
 
-See the [Single File Component (SFC)][vue-sfc] example below:
+See the [Single File Component][vue-sfc] example below:
 
 ```vue
 <template>
@@ -111,7 +111,7 @@ export default {
 
 In the example above, we are passing `this` as the rule's `props` to Fela's `renderRule` function. Doing so will give the rule access to all the component instance properties such as `color` to derive the styles.
 
-You can pass any arbitary `props` object as the second argument to `renderRule`...but you probably already knew that.
+You can of course pass any arbitary `props` object as the second argument to `renderRule`.
 
 <a name="map-rule"></a>
 
