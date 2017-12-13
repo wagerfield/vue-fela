@@ -31,10 +31,10 @@
     }
   },
   "scripts": {
-    "precommit": "npm run lint && npm run test",
     "lint": "eslint .",
     "test": "jest",
-    "test-watch": "jest --watch"
+    "test-watch": "jest --watch",
+    "precommit": "npm run lint && npm run test"
   },
   "repository": {
     "type": "git",
