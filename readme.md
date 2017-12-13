@@ -376,6 +376,7 @@ export default {
     FelaProvider: Provider
   }
 }
+</script>
 ```
 
 ## Author
