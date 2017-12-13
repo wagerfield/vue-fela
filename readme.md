@@ -74,7 +74,7 @@ export const renderer = createRenderer({
 Vue.use(VueFela, { renderer })
 ```
 
-This is useful if you want to create and keep a reference to the `renderer` instance to allow you to render static styles, fonts and keyframes using the [Renderer API][fela-renderer] elsewhere in your application.
+This is useful if you want to create and keep a reference to the `renderer` instance to allow you to render [static styles][fela-render-static], [fonts][fela-render-fonts] and [keyframes][fela-render-keyframes] using the [Renderer API][fela-renderer] elsewhere in your application.
 
 ### Rendering Rules
 
@@ -394,10 +394,13 @@ export default {
 [vuex-helpers]: https://vuex.vuejs.org/en/api.html#component-binding-helpers
 
 [fela]: http://fela.js.org
-[fela-renderer]: http://fela.js.org/docs/basics/Renderer.html
 [fela-config]: http://fela.js.org/docs/advanced/RendererConfiguration.html
 [fela-client]: http://fela.js.org/docs/advanced/DOMRendering.html
 [fela-server]: http://fela.js.org/docs/advanced/ServerRendering.html
+[fela-renderer]: http://fela.js.org/docs/basics/Renderer.html
+[fela-render-fonts]: http://fela.js.org/docs/api/fela/Renderer.html#renderfontfamily-files-properties
+[fela-render-static]: http://fela.js.org/docs/api/fela/Renderer.html#renderstaticstyle-selector
+[fela-render-keyframes]: http://fela.js.org/docs/api/fela/Renderer.html#renderkeyframekeyframe-props
 
 [object-spread]: https://github.com/tc39/proposal-object-rest-spread
 
