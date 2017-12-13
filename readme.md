@@ -271,11 +271,11 @@ If you have used [Vuex's mapping helpers][vuex-helpers] the following interface 
 The `optMap` argument can either be:
 
 1. An Array of Strings where:
-    - String values are the names of the rules in the object map to include in the object that is returned from `mapRules`
+    - String values are the names of the rules in the object map to include in the object that is returned
     - This allows you to filter out the rules you require
     - It does not allow you to rename the rules
 2. An Object of key values where:
-    - Keys are aliases to use as the computed prop names in the object that is returned from `mapRules`
+    - Keys are aliases to use as the computed prop names in the object that is returned
     - Values are the names of the rules in the object map
     - This allows you to both filter and rename rules
 
