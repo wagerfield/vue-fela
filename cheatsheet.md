@@ -6,7 +6,8 @@
 - [Rendering Fonts](#rendering-fonts)
 - [Rendering Keyframes](#rendering-keyframes)
 - [Rendering Static Styles](#rendering-static-styles)
-- [Universal Rendering](#universal-rendering)
+- [Client Rendering](#client-rendering)
+- [Server Rendering](#server-rendering)
 
 ## [Vue Plugin](https://vuejs.org/v2/guide/plugins.html)
 
@@ -112,16 +113,43 @@ renderer.renderStatic({
 }, '*, html, input')
 ```
 
-## [Universal Rendering](http://fela.js.org/docs/Advanced.html)
+## [Client Rendering](http://fela.js.org/docs/advanced/DOMRendering.html)
 
 ```js
-import { render, renderToMarkup } from 'fela-dom'
+import { rehydrate, render } from 'fela-dom'
 
-const isServer = typeof window === 'undefined'
+rehydrate(renderer)
+render(renderer)
+```
 
-if (isServer) {
-  renderToMarkup(renderer)
-} else {
-  render(renderer)
-}
+## [Server Rendering](http://fela.js.org/docs/advanced/ServerRendering.html)
+
+```js
+import { renderToMarkup, renderToSheetList } from 'fela-dom'
+
+// renderToMarkup(renderer)
+// http://fela.js.org/docs/api/fela-dom/renderToMarkup.html
+// <style type="text/css" data-fela-type="STATIC">html,body{box-sizing:border-box;margin:0}</style>
+// <style type="text/css" data-fela-type="RULE">.a{font-size:12px}.b{color:blue}</style>
+// <style type="text/css" data-fela-type="RULE" data-fela-support>.c{color:green}</style>
+// <style type="text/css" data-fela-type="RULE" media="(min-width: 300px)">.d{color:red}</style>
+renderToMarkup(renderer)
+
+// renderToSheetList(renderer)
+// http://fela.js.org/docs/api/fela-dom/renderToSheetList.html
+// Group and order is important for rehydration on the client
+// 1. Fonts
+// 2. Static Styles
+// 3. Keyframes
+// 4. Rules
+// 5. Support Rules
+// 6. Media Query Rules
+// 7. Support & Media Query Rules
+// [
+//   { type: 'STATIC', css: 'html,body{box-sizing:border-box;margin:0}' },
+//   { type: 'RULE', css: '.a{font-size:12px}.b{color:blue}' },
+//   { type: 'RULE', css: '.c{color:green}', support: true },
+//   { type: 'RULE', css: '.d{color:red}', media: '(min-width: 300px)' },
+// ]
+renderToSheetList(renderer)
 ```
