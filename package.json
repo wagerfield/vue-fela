@@ -2,7 +2,7 @@
   "name": "vue-fela-plugin",
   "version": "0.0.0",
   "description": "Vue Fela Plugin",
-  "homepage": "https://github.com/wagerfield/vue-fela-plugin#readme",
+  "homepage": "https://github.com/wagerfield/vue-fela#readme",
   "author": "Matthew Wagerfield <matthew@wagerfield.com>",
   "license": "MIT",
   "keywords": [
@@ -12,6 +12,7 @@
   ],
   "files": [
     "index.js",
+    "provider.js",
     "utils.js"
   ],
   "main": "index.js",
@@ -37,10 +38,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wagerfield/vue-fela-plugin.git"
+    "url": "git+https://github.com/wagerfield/vue-fela.git"
   },
   "bugs": {
-    "url": "https://github.com/wagerfield/vue-fela-plugin/issues"
+    "url": "https://github.com/wagerfield/vue-fela/issues"
   },
   "dependencies": {
     "fela": "^6.1.0",
