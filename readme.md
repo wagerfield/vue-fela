@@ -27,7 +27,7 @@ import VueFela from 'vue-fela-plugin'
 Vue.use(VueFela)
 ```
 
-Installing `VueFela` via `Vue.use()` will create a [Fela Renderer][fela-renderer] instance ([unless one is provided](#custom-fela-renderer)) and add it to Vue's prototype on a `$fela` property.
+Installing `VueFela` via `Vue.use` will create a [Fela Renderer][fela-renderer] instance ([unless one is provided](#custom-fela-renderer)) and add it to Vue's prototype on a `$fela` property.
 
 ### Fela Renderer Configuration
 
