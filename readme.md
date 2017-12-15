@@ -11,6 +11,7 @@
         - [`mapRules(rules, optMap, optProps)`](#map-rules)
     - [Rendering Styles](#rendering-styles)
         - [Fela Provider](#fela-provider)
+- [Tests](#tests)
 
 ## Installation
 
@@ -379,6 +380,28 @@ export default {
 </script>
 ```
 
+## Tests
+
+Tests are written using [`jest`][jest] and [`vue-test-utils`][vue-test-utils].
+
+To run the tests after cloning the repository and installing its dependencies:
+
+```bash
+yarn test
+```
+
+To run the tests in watch mode:
+
+```bash
+yarn test-watch
+```
+
+To generate a coverage report:
+
+```bash
+yarn test-coverage
+```
+
 ## Author
 
 [Matthew Wagerfield][twitter]
@@ -389,8 +412,10 @@ export default {
 
 
 
-[vue]: https://vuejs.org/
+[vue]: https://vuejs.org
 [vue-sfc]: https://vuejs.org/v2/guide/single-file-components.html
+
+[vue-test-utils]: https://vue-test-utils.vuejs.org
 
 [vuex-helpers]: https://vuex.vuejs.org/en/api.html#component-binding-helpers
 
