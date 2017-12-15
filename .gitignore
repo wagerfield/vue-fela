@@ -1,5 +1,6 @@
 # folders
 /node_modules/
+/coverage/
 
 # files
 .DS_Store
