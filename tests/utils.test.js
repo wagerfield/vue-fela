@@ -38,12 +38,12 @@ describe('isArray', () => {
 
 describe('isObject', () => {
 
-  it('returns true for arrays', () => {
-    expect(isObject([])).toBe(true)
-  })
-
   it('returns true for objects', () => {
     expect(isObject({})).toBe(true)
+  })
+
+  it('returns false for arrays', () => {
+    expect(isObject([])).toBe(false)
   })
 
   it('returns false for numbers', () => {

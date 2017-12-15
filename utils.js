@@ -1,26 +1,32 @@
 var isServer = typeof window === 'undefined'
 var isClient = !isServer
 
+function toString(value) {
+  return Object.prototype.toString.call(value)
+}
+
 function isType(value, type) {
-  return typeof value === type
+  return toString(value) === type
 }
 
 function isArray(value) {
-  return Array.isArray
-    ? Array.isArray(value)
-    : value instanceof Array
+  return isType(value, '[object Array]')
 }
 
 function isObject(value) {
-  return value !== null && isType(value, 'object')
+  return isType(value, '[object Object]')
 }
 
 function isString(value) {
-  return isType(value, 'string') || value instanceof String
+  return isType(value, '[object String]')
+}
+
+function isUndefined(value) {
+  return isType(value, '[object Undefined]')
 }
 
 function isDefined(value) {
-  return typeof value !== 'undefined'
+  return !isUndefined(value)
 }
 
 function mapArray(array, iteratee) {
