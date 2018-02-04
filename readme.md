@@ -6,8 +6,8 @@
 - [Usage](#usage)
     - [Working Example Using Nuxt](example)
     - [Rendering Rules](#rendering-rules)
-        - [`mapRule(rule, optProps)`](#map-rule)
-        - [`mapRules(rules, optMap, optProps)`](#map-rules)
+        - [mapRule(rule, optProps)](#map-rule)
+        - [mapRules(rules, optMap, optProps)](#map-rules)
     - [Rendering Styles](#rendering-styles)
         - [Fela Provider](#fela-provider)
         - [Server Side Rendering](#server-side-rendering)
@@ -83,7 +83,7 @@ You can of course pass any arbitary `props` object as the second argument to `re
 
 <a name="map-rule"></a>
 
-#### `mapRule(rule, optProps)`
+#### mapRule(rule, optProps)
 
 To save having to define a computed prop function and return `this.$fela.renderRule(rule, props)` each time, a `mapRule` helper is provided:
 
@@ -131,7 +131,7 @@ Since the class names being returned from `mapRule` are assigned to the componen
 
 <a name="map-rules"></a>
 
-#### `mapRules(rules, optMap, optProps)`
+#### mapRules(rules, optMap, optProps)
 
 Taking it one step further, the `mapRules` helper repeats the work of `mapRule`—but expects an object map of `rules` rather than a single `rule` function:
 
