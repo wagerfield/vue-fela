@@ -1,6 +1,7 @@
 # folders
-/node_modules/
-/coverage/
+node_modules
+coverage
+.nuxt
 
 # files
 .DS_Store
