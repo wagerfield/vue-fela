@@ -9,5 +9,8 @@
     "no-invalid-this": "off",
     "no-undefined": "off",
     "no-var": "off"
+  },
+  "settings": {
+    "import/core-modules": [ "vue", "vuex" ]
   }
 }
