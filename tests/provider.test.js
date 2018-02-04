@@ -1,5 +1,5 @@
 import { createRenderer } from 'fela'
-import Provider from '../lib/provider'
+import FelaProvider from '../lib/provider'
 import {
   MetaInfo,
   testSnapshot,
@@ -56,7 +56,7 @@ describe('Provider', () => {
 
     it('adds meta info to provider instance $options when ssr is true', () => {
       const wrapper = wrapApp(localVue, fela, { ssr: true })
-      const provider = wrapper.find(Provider)
+      const provider = wrapper.find(FelaProvider)
       const metaInfo = provider.vm.$options.head
 
       expect(metaInfo).toEqual(MetaInfo)
@@ -64,7 +64,7 @@ describe('Provider', () => {
 
     it('adds meta info to provider instance $options when ssr is false', () => {
       const wrapper = wrapApp(localVue, fela, { ssr: false })
-      const provider = wrapper.find(Provider)
+      const provider = wrapper.find(FelaProvider)
       const metaInfo = provider.vm.$options.head
 
       expect(metaInfo).toEqual(MetaInfo)
@@ -73,7 +73,7 @@ describe('Provider', () => {
     it('adds meta info to provider instance $options on custom property', () => {
       const metaKeyName = 'custom'
       const wrapper = wrapApp(localVue, fela, { metaKeyName })
-      const provider = wrapper.find(Provider)
+      const provider = wrapper.find(FelaProvider)
       const metaInfo = provider.vm.$options[metaKeyName]
 
       expect(metaInfo).toEqual(MetaInfo)
@@ -100,7 +100,7 @@ describe('Provider', () => {
 
     it('adds meta info to provider instance $options when ssr is true', () => {
       const wrapper = wrapApp(localVue, fela, { ssr: true })
-      const provider = wrapper.find(Provider)
+      const provider = wrapper.find(FelaProvider)
       const metaInfo = provider.vm.$options.head
 
       expect(metaInfo).toEqual(MetaInfo)
@@ -108,7 +108,7 @@ describe('Provider', () => {
 
     it('does not add meta info to provider instance $options when ssr is false', () => {
       const wrapper = wrapApp(localVue, fela, { ssr: false })
-      const provider = wrapper.find(Provider)
+      const provider = wrapper.find(FelaProvider)
       const metaInfo = provider.vm.$options.head
 
       expect(metaInfo).toBeUndefined()
@@ -117,7 +117,7 @@ describe('Provider', () => {
     it('adds meta info to provider instance $options on custom property', () => {
       const metaKeyName = 'custom'
       const wrapper = wrapApp(localVue, fela, { metaKeyName })
-      const provider = wrapper.find(Provider)
+      const provider = wrapper.find(FelaProvider)
       const metaInfo = provider.vm.$options[metaKeyName]
 
       expect(metaInfo).toEqual(MetaInfo)
