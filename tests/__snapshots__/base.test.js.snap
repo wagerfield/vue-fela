@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Base component renders expected snapshot 1`] = `<div class="a"></div>`;
-
-exports[`Base component renders expected snapshot 2`] = `<div class="b"></div>`;
-
-exports[`Base component renders expected snapshot 3`] = `<div class="a b"></div>`;

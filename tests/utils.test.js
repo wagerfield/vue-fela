@@ -1,13 +1,10 @@
 import {
-  get,
   isArray,
   isObject,
-  isString,
-  isDefined,
   mapArray,
   reduceArray,
   reduceObject
-} from '../utils'
+} from '../lib/utils'
 
 describe('isArray', () => {
 
@@ -60,67 +57,6 @@ describe('isObject', () => {
     expect(isObject(false)).toBe(false)
     expect(isObject(null)).toBe(false)
     expect(isObject()).toBe(false)
-  })
-})
-
-describe('isString', () => {
-
-  it('returns true for strings', () => {
-    expect(isString('')).toBe(true)
-    expect(isString('foo')).toBe(true)
-  })
-
-  it('returns false for arrays', () => {
-    expect(isString([])).toBe(false)
-  })
-
-  it('returns false for objects', () => {
-    expect(isString({})).toBe(false)
-  })
-
-  it('returns false for numbers', () => {
-    expect(isString(0)).toBe(false)
-    expect(isString(1)).toBe(false)
-  })
-
-  it('returns false for nil values', () => {
-    expect(isString(false)).toBe(false)
-    expect(isString(null)).toBe(false)
-    expect(isString()).toBe(false)
-  })
-})
-
-describe('isDefined', () => {
-
-  it('returns true for strings', () => {
-    expect(isDefined('')).toBe(true)
-    expect(isDefined('foo')).toBe(true)
-  })
-
-  it('returns true for arrays', () => {
-    expect(isDefined([])).toBe(true)
-  })
-
-  it('returns true for objects', () => {
-    expect(isDefined({})).toBe(true)
-  })
-
-  it('returns true for numbers', () => {
-    expect(isDefined(0)).toBe(true)
-    expect(isDefined(1)).toBe(true)
-  })
-
-  it('returns true for booleans', () => {
-    expect(isDefined(true)).toBe(true)
-    expect(isDefined(false)).toBe(true)
-  })
-
-  it('returns true for null', () => {
-    expect(isDefined(null)).toBe(true)
-  })
-
-  it('returns false for undefined', () => {
-    expect(isDefined()).toBe(false)
   })
 })
 
@@ -183,25 +119,5 @@ describe('reduceObject', () => {
     expect(iteratee).toHaveBeenCalledTimes(keys.length)
     expect(iteratee.mock.calls[0]).toEqual([ 10, 1, 'one' ])
     expect(result).toBe(10)
-  })
-})
-
-describe('get', () => {
-
-  it('returns default value if object is undefined', () => {
-    expect(get(undefined, 'foo', 1)).toBe(1)
-  })
-
-  it('returns default value if object is null', () => {
-    expect(get(null, 'foo', 1)).toBe(1)
-  })
-
-  it('returns default value if object key value is undefined', () => {
-    expect(get({}, 'foo', 1)).toBe(1)
-  })
-
-  it('returns object key value when defined', () => {
-    expect(get({ foo: false }, 'foo', 1)).toBe(false)
-    expect(get({ bar: null }, 'bar', 1)).toBe(null)
   })
 })
