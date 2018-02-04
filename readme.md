@@ -4,13 +4,13 @@
 
 - [Installation](#installation)
 - [Usage](#usage)
-    - [Fela Renderer Configuration](#fela-renderer-configuration)
-    - [Custom Fela Renderer](#custom-fela-renderer)
+    - [Working Example Using Nuxt](example)
     - [Rendering Rules](#rendering-rules)
         - [`mapRule(rule, optProps)`](#map-rule)
         - [`mapRules(rules, optMap, optProps)`](#map-rules)
     - [Rendering Styles](#rendering-styles)
         - [Fela Provider](#fela-provider)
+        - [Server Side Rendering](#server-side-rendering)
 - [Tests](#tests)
 
 ## Installation
@@ -24,58 +24,23 @@ yarn add vue-fela-plugin
 ```js
 import Vue from 'vue'
 import VueFela from 'vue-fela-plugin'
-
-Vue.use(VueFela)
-```
-
-Installing `VueFela` via `Vue.use` will create a [Fela Renderer][fela-renderer] instance ([unless one is provided](#custom-fela-renderer)) and add it to Vue's prototype on a `$fela` property.
-
-### Fela Renderer Configuration
-
-To configure the Fela Renderer instance, pass the [configuration options][fela-config] as the second argument to `Vue.use`.
-
-Internally the plugin will pass these options to Fela's `createRenderer` function:
-
-```js
-import Vue from 'vue'
-import VueFela from 'vue-fela-plugin'
-import beautifier from 'fela-beautifier'
-import prefixer from 'fela-plugin-prefixer'
-
-Vue.use(VueFela, {
-  enhancers: [
-    beautifier()
-  ],
-  plugins: [
-    prefixer()
-  ]
-})
-```
-
-### Custom Fela Renderer
-
-To use your own Fela Renderer instance, pass it to the plugin configuration options using the `renderer` key:
-
-```js
-import Vue from 'vue'
-import VueFela from 'vue-fela-plugin'
-import beautifier from 'fela-beautifier'
-import prefixer from 'fela-plugin-prefixer'
 import { createRenderer } from 'fela'
 
-export const renderer = createRenderer({
-  enhancers: [
-    beautifier()
-  ],
-  plugins: [
-    prefixer()
-  ]
-})
+// 1. Install the plugin
+Vue.use(VueFela)
 
-Vue.use(VueFela, { renderer })
+// 2. Create a fela renderer
+const renderer = createRenderer()
+
+// 3. Inject the renderer on a 'fela' property
+const app = new Vue({
+  fela: renderer
+}).$mount('#app')
 ```
 
-This is useful if you want to create and keep a reference to the `renderer` instance to allow you to render [static styles][fela-render-static], [fonts][fela-render-fonts] and [keyframes][fela-render-keyframes] using the [Renderer API][fela-renderer] elsewhere in your application.
+When the plugin is installed via `Vue.use(VueFela)`, a `$fela` property is set on each Vue component instance—referencing the `fela` [renderer][fela-renderer] that was injected when the root `app` was created.
+
+**Check out a full working [example using Nuxt](example).**
 
 ### Rendering Rules
 
@@ -149,18 +114,18 @@ export default {
 
 Passing `optProps` as the second argument to `mapRule` is _optional_.
 
-If `optProps` is omitted (like in the example above) then the Vue component instance will be passed by default. This is shorthand for calling `mapRule(rule, this)`. Typically this is the desired behaviour since a component's styles will generally want to be the result of its state.
+If `optProps` is omitted (like in the example above) then the Vue component instance will be passed by default. Typically this is the desired behaviour since a component's styles will generally want to be the result of its state.
 
 In the example above, the `color` prop can be configured by a parent component. This value will then be available within the component instance via `this.color`. If `color` is not set by the parent component, it will default to 'red' since we have set the `default` field in the `props` color definition.
 
 As you might expect, _all properties and methods_ on a Vue component instance can be used within a rule:
 
-- `props` values that can be set by parent components
+- `props` values set by parent components
 - `data` values set when the component is initialised
 - `computed` values derived from other properties and state
 - `methods` that return values
 
-Since the class names being returned from `mapRule` are assigned to the component's `computed` props object, any change in the state referenced by the rule will trigger an update and return new class names.
+Since the class names being returned from `mapRule` are assigned to the component's `computed` props object, any change in state referenced by a rule will trigger an update and return new class names.
 
 <a name="map-rules"></a>
 
@@ -199,7 +164,8 @@ const rules = {
 export default {
   props: {
     highlight: {
-      type: Boolean
+      type: Boolean,
+      default: false
     },
     textAlign: {
       type: String,
@@ -261,9 +227,9 @@ export default {
 </script>
 ```
 
-Calling `mapRules(rules, optMap, optProps)` _with no_ `optMap` argument will result in _all_ of the `rules` being returned and assigned to the component's `computed` props.
+Calling `mapRules(rules, optMap, optProps)` with no `optMap` argument will result in all `rules` being returned and assigned to the component's `computed` props.
 
-In the example above, this would assign `container`, `heading` and `body` to the component's `computed` props. These 3 props could then be used as the class names on the 3 respective elements in the template.
+In the example above, this would assign `container`, `heading` and `body` to the component's `computed` props. These 3 props can then be used as class names on the 3 respective elements in the template.
 
 This behaviour might not always be desirable, so `mapRules` provides another level of control with the `optMap` argument.
 
@@ -272,8 +238,8 @@ If you have used [Vuex's mapping helpers][vuex-helpers] the following interface 
 The `optMap` argument can either be:
 
 1. An Array of Strings where:
-    - String values are the names of the rules in the object map to include in the object that is returned
-    - This allows you to filter out the rules you require
+    - String values are the names of the rules to include in the object that is returned
+    - This allows you to filter out only the rules you require
     - It does not allow you to rename the rules
 2. An Object of key values where:
     - Keys are aliases to use as the computed prop names in the object that is returned
@@ -316,69 +282,71 @@ export default {
 </script>
 ```
 
-In the example above you can see that we have used the [object spread operator][object-spread] to merge multiple calls to `mapRules` onto the component's `computed` object. We have also omitted the `body` rule from the `component-rules.js` map.
+In the example above you can see that we have used the [object spread operator][object-spread] to merge multiple calls to `mapRules` onto the component's `computed` props object. We have also omitted the `body` rule from the `component-rules.js` map.
 
 Finally, much like the `mapRule` helper, `optProps` can be passed as the _third argument_ to `mapRules`. Omitting `optProps` will result in the component instance being passed to each of the rules as the `props` argument by default.
 
 ### Rendering Styles
 
-To render the actual styles cached by the Fela Renderer to the DOM we need to use `fela-dom`.
+To render the styles cached by the Fela Renderer we need to use `fela-dom`.
 
-However, since Fela works on both the [client][fela-client] and the [server][fela-server], the method for rendering styles differs between environments.
+However, since Fela works on both the [client][fela-client] and the [server][fela-server], the method for rendering the cached styles differs between environments.
 
-To simplify this, `VueFela` includes a `Provider` component to handle the logic of determining what to do in each environment.
+To simplify this, `VueFela` includes a `fela` provider component to handle the logic of determining what to do in each environment.
 
 #### Fela Provider
 
-By default `VueFela` registers a `fela-provider` component in Vue's global scope when you install the plugin.
+When the `VueFela` plugin is installed it registers a `fela` component in Vue's global scope.
 
-To allow Fela to render the styles to the DOM, you must include the `fela-provider` component _once_ in your application:
-
-```vue
-<template>
-  <div id="app">
-    <fela-provider/>
-  </div>
-</template>
-```
-
-If you want the Fela Provider to be registered globally with a different component name, you can specify this using the `provider` key in the plugin options:
-
-```js
-import Vue from 'vue'
-import VueFela from 'vue-fela-plugin'
-
-Vue.use(VueFela, { provider: 'custom-fela-provider' })
-```
-
-Alternatively if you don't want the Fela Provider component to be registered globally, you can pass `false` as the `provider` value:
-
-```js
-import Vue from 'vue'
-import VueFela from 'vue-fela-plugin'
-
-Vue.use(VueFela, { provider: false })
-```
-
-When doing this, you _must_ then register the Fela `Provider` locally in one of your components:
+To render the cached styles, you must include the `fela` component _once_ in your application:
 
 ```vue
 <template>
   <div id="app">
-    <fela-provider/>
+    <fela/>
   </div>
 </template>
-
-<script>
-import { Provider } from 'vue-fela-plugin'
-
-export default {
-  components: {
-    FelaProvider: Provider
-  }
-}
-</script>
 ```
+
+Alternatively you can make the `fela` component the root of your application and nest the rest of your markup within it:
+
+```vue
+<template>
+  <fela id="app">
+    <h1>This will be rendered</h1>
+    <h2>So will this</h1>
+  </fela>
+</template>
+```
+
+The `fela` provider component has 4 props that can be optionally set:
+
+Attribute | Type | Default | Description
+----------|------|---------|------------
+`tag` | `String` | `div` | HTML tag to render
+`ssr` | `Boolean` | `true` | Enable/disable SSR
+`metaTagId` | `String` | `hid` | Vue Meta `tagIDKeyName` option<br>This is [configured to work with Nuxt][nuxt-meta] by default
+`metaKeyName` | `String` | `head` | Vue Meta `keyName` option<br>This is [configured to work with Nuxt][nuxt-meta] by default
+
+```vue
+<template>
+  <fela
+    tag="main"
+    meta-tag-id="vmid"
+    meta-key-name="metaInfo"
+    :ssr="false"/>
+</template>
+```
+
+#### Server Side Rendering
+
+The easiest way to create universal Vue applications is with [Nuxt][nuxt]. Nuxt takes care of setting up the complex logic for rendering pages built from Vue components on the server and rehydrating them on the client.
+
+Nuxt uses `vue-meta` to render and update tags in the `<head>` of your pages. [Vue Meta][vue-meta] provides the mechanism Vue Fela needs for rendering the cached styles on the server and sending them to the client.
+
+Because of this, the `fela` provider component is configured to work with Nuxt by default.
+
+**Check out a full working [example using Nuxt](example).**
 
 ## Tests
 
@@ -417,16 +385,17 @@ yarn test-coverage
 
 [vue-test-utils]: https://vue-test-utils.vuejs.org
 
+[vue-meta]: https://github.com/declandewet/vue-meta
+
 [vuex-helpers]: https://vuex.vuejs.org/en/api.html#component-binding-helpers
 
 [fela]: http://fela.js.org
-[fela-config]: http://fela.js.org/docs/advanced/RendererConfiguration.html
 [fela-client]: http://fela.js.org/docs/advanced/DOMRendering.html
 [fela-server]: http://fela.js.org/docs/advanced/ServerRendering.html
 [fela-renderer]: http://fela.js.org/docs/basics/Renderer.html
-[fela-render-fonts]: http://fela.js.org/docs/api/fela/Renderer.html#renderfontfamily-files-properties
-[fela-render-static]: http://fela.js.org/docs/api/fela/Renderer.html#renderstaticstyle-selector
-[fela-render-keyframes]: http://fela.js.org/docs/api/fela/Renderer.html#renderkeyframekeyframe-props
+
+[nuxt]:https://nuxtjs.org
+[nuxt-meta]:https://nuxtjs.org/guide/views#html-head
 
 [object-spread]: https://github.com/tc39/proposal-object-rest-spread
 
