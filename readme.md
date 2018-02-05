@@ -327,15 +327,14 @@ Attribute | Type | Default | Description
 ----------|------|---------|------------
 `tag` | `String` | `div` | HTML tag to render
 `ssr` | `Boolean` | `true` | Enable/disable SSR
-`metaTagId` | `String` | `hid` | Vue Meta `tagIDKeyName` option<br>This is [configured to work with Nuxt][nuxt-meta] by default
-`metaKeyName` | `String` | `head` | Vue Meta `keyName` option<br>This is [configured to work with Nuxt][nuxt-meta] by default
+`metaTagId` | `String` | `hid` | Vue Meta `tagIDKeyName` [option][vue-meta-options]<br>This is [configured to work with Nuxt][nuxt-meta] by default
+`metaKeyName` | `String` | `head` | Vue Meta `keyName` [option][vue-meta-options]<br>This is [configured to work with Nuxt][nuxt-meta] by default
 
-An example using Vue Meta's default values while disabling SSR can be seen below:
+An example using [Vue Meta's default values][vue-meta-options] while disabling SSR can be seen below:
 
 ```vue
 <template>
-  <fela
-    tag="main"
+  <fela tag="main"
     meta-tag-id="vmid"
     meta-key-name="metaInfo"
     :ssr="false"/>
@@ -348,9 +347,9 @@ The easiest way to create universal Vue applications is with [Nuxt][nuxt]. Nuxt 
 
 Nuxt uses `vue-meta` to render and update tags in the `<head>` of your pages. [Vue Meta][vue-meta] provides the mechanism Vue Fela needs for rendering the cached styles on the server and sending them to the client.
 
-Because of this, the `fela` provider component is configured to work with `vue-meta` using [Nuxt's configuration options][nuxt-meta] by default.
+Because of this, the `fela` provider component is configured to work with `vue-meta` using [Nuxt's configuration][nuxt-meta] by default.
 
-To setup Vue Fela with Nuxt you will need to add a plugin file to the `plugins` directory:
+To setup Vue Fela with Nuxt you will need to setup the plugin in the `plugins` directory:
 
 ```js
 // plugins/fela.js
@@ -370,7 +369,7 @@ export default ({ app }) => {
 }
 ```
 
-Then all you need to do is add the plugin to Nuxt's configuration:
+Then add the plugin to Nuxt's configuration:
 
 ```js
 // nuxt.config.js
@@ -422,6 +421,7 @@ yarn test-coverage
 [vue-test-utils]: https://vue-test-utils.vuejs.org
 
 [vue-meta]: https://github.com/declandewet/vue-meta
+[vue-meta-options]: https://github.com/declandewet/vue-meta#options
 
 [vuex-helpers]: https://vuex.vuejs.org/en/api.html#component-binding-helpers
 
