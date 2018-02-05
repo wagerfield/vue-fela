@@ -330,6 +330,8 @@ Attribute | Type | Default | Description
 `metaTagId` | `String` | `hid` | Vue Meta `tagIDKeyName` option<br>This is [configured to work with Nuxt][nuxt-meta] by default
 `metaKeyName` | `String` | `head` | Vue Meta `keyName` option<br>This is [configured to work with Nuxt][nuxt-meta] by default
 
+An example using Vue Meta's default values while disabling SSR can be seen below:
+
 ```vue
 <template>
   <fela
@@ -342,11 +344,42 @@ Attribute | Type | Default | Description
 
 #### Server Side Rendering
 
-The easiest way to create universal Vue applications is with [Nuxt][nuxt]. Nuxt takes care of setting up the complex logic for rendering pages built from Vue components on the server and rehydrating them on the client.
+The easiest way to create universal Vue applications is with [Nuxt][nuxt]. Nuxt takes care of setting up the logic for rendering Vue components on the server and rehydrating them on the client.
 
 Nuxt uses `vue-meta` to render and update tags in the `<head>` of your pages. [Vue Meta][vue-meta] provides the mechanism Vue Fela needs for rendering the cached styles on the server and sending them to the client.
 
-Because of this, the `fela` provider component is configured to work with Nuxt by default.
+Because of this, the `fela` provider component is configured to work with `vue-meta` using [Nuxt's configuration options][nuxt-meta] by default.
+
+To setup Vue Fela with Nuxt you will need to add a plugin file to the `plugins` directory:
+
+```js
+// plugins/fela.js
+import Vue from 'vue'
+import VueFela from 'vue-fela-plugin'
+import { createRenderer } from 'fela'
+
+// 1. Install the plugin
+Vue.use(VueFela)
+
+// 2. Create a fela renderer
+const renderer = createRenderer()
+
+export default ({ app }) => {
+  // 3. Assign the renderer to the app on a 'fela' property
+  app.fela = createRenderer()
+}
+```
+
+Then all you need to do is add the plugin to Nuxt's configuration:
+
+```js
+// nuxt.config.js
+module.exports = {
+  plugins: [
+    'plugins/fela'
+  ]
+}
+```
 
 **Check out a full working [example using Nuxt](example).**
 
