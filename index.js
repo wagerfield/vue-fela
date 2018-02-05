@@ -3,6 +3,6 @@ var helpers = require('./lib/helpers')
 
 module.exports = {
   install: install,
-  mapRules: helpers.mapRules,
-  mapRule: helpers.mapRule
+  mapRule: helpers.mapRule,
+  mapRules: helpers.mapRules
 }
