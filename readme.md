@@ -38,15 +38,13 @@ const app = new Vue({
 }).$mount('#app')
 ```
 
-When the plugin is installed, a `$fela` property is set on each Vue component instance in the [`beforeCreate`][vue-before-create] hook.
-
-The `$fela` property provides a reference to the [Fela Renderer][fela-renderer] instance that was injected into the root application.
+When the plugin is installed, a `$fela` property is set on each Vue component instance in the [`beforeCreate`][vue-before-create] hook. The `$fela` property provides a reference to the [Fela Renderer][fela-renderer] instance that was injected into the root application.
 
 **Check out a full working [example using Nuxt](example).**
 
 ### Rendering Rules
 
-Since a [Fela Renderer][fela-renderer] instance is added to each Vue component instance, you can reference and use it via `this.$fela`.
+Since a [Fela Renderer][fela-renderer] instance is bound to each Vue component instance, you can reference and use it via `this.$fela`.
 
 See the [Single File Component][vue-sfc] example below:
 
