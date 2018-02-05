@@ -347,9 +347,9 @@ The easiest way to create universal Vue applications is with [Nuxt][nuxt]. Nuxt 
 
 Nuxt uses `vue-meta` to render and update tags in the `<head>` of your pages. [Vue Meta][vue-meta] provides the mechanism Vue Fela needs for rendering the cached styles on the server and sending them to the client.
 
-Because of this, the `fela` provider component is configured to work with `vue-meta` using [Nuxt's configuration][nuxt-meta] by default.
+Because of this, the `fela` provider component is setup to work with `vue-meta` using [Nuxt's configuration options][nuxt-meta] by default.
 
-To setup Vue Fela with Nuxt you will need to setup the plugin in the `plugins` directory:
+To setup Vue Fela with Nuxt you will need to create a file in the `plugins` directory:
 
 ```js
 // plugins/fela.js
