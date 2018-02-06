@@ -368,7 +368,7 @@ const renderer = createRenderer()
 
 export default ({ app }) => {
   // 3. Assign the renderer to the app on a 'fela' property
-  app.fela = createRenderer()
+  app.fela = renderer
 }
 ```
 
