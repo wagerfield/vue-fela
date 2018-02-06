@@ -2,6 +2,8 @@
 
 ![build](https://img.shields.io/travis/wagerfield/vue-fela.svg)
 ![coveralls](https://img.shields.io/coveralls/github/wagerfield/vue-fela.svg)
+![issues](https://img.shields.io/github/issues/wagerfield/vue-fela.svg)
+![license](https://img.shields.io/github/license/wagerfield/vue-fela.svg)
 
 **[Fela][fela] plugin for [Vue][vue]**
 
