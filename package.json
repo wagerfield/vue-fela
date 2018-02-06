@@ -53,6 +53,7 @@
     "babel-core": "^6.26.0",
     "babel-jest": "^22.1.0",
     "babel-preset-env": "^1.6.1",
+    "coveralls": "^3.0.0",
     "eslint": "^4.16.0",
     "eslint-config-supermind": "^0.48.0",
     "fela": "^6.1.3",
