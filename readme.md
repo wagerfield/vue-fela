@@ -7,13 +7,13 @@
 
 - [Installation](#installation)
 - [Usage](#usage)
-    - [Working Example Using Nuxt](example)
     - [Rendering Rules](#rendering-rules)
         - [mapRule(rule, optProps)](#map-rule)
         - [mapRules(rules, optMap, optProps)](#map-rules)
     - [Rendering Styles](#rendering-styles)
         - [Fela Provider](#fela-provider)
-        - [Server Side Rendering](#server-side-rendering)
+        - [Universal Rendering](#universal-rendering)
+        - [Nuxt Example](#nuxt-example)
 - [Tests](#tests)
 
 ## Installation
@@ -45,7 +45,7 @@ When the plugin is installed, a `$fela` property is set on each Vue component in
 
 **Check out a full working [example using Nuxt](example).**
 
-### Rendering Rules
+## Rendering Rules
 
 Since a [Fela Renderer][fela-renderer] instance is bound to each Vue component instance, you can reference and use it via `this.$fela`.
 
@@ -84,7 +84,7 @@ You can of course pass any arbitary `props` object as the second argument to `re
 
 <a name="map-rule"></a>
 
-#### mapRule(rule, optProps)
+### mapRule(rule, optProps)
 
 To save having to define a computed prop function and return `this.$fela.renderRule(rule, props)` each time, a `mapRule` helper is provided:
 
@@ -132,7 +132,7 @@ Since the class names being returned from `mapRule` are assigned to the componen
 
 <a name="map-rules"></a>
 
-#### mapRules(rules, optMap, optProps)
+### mapRules(rules, optMap, optProps)
 
 Taking it one step further, the `mapRules` helper repeats the work of `mapRule`—but expects an object map of `rules` rather than a single `rule` function:
 
@@ -289,7 +289,7 @@ In the example above you can see that we have used the [object spread operator][
 
 Finally, much like the `mapRule` helper, `optProps` can be passed as the _third argument_ to `mapRules`. Omitting `optProps` will result in the component instance being passed to each of the rules as the `props` argument by default.
 
-### Rendering Styles
+## Rendering Styles
 
 To render the styles cached by the Fela Renderer we need to use `fela-dom`.
 
@@ -297,7 +297,7 @@ However, since Fela works on both the [client][fela-client] and the [server][fel
 
 To simplify this, `VueFela` includes a `fela` provider component to handle the logic of determining what to do in each environment.
 
-#### Fela Provider
+### Fela Provider
 
 When the `VueFela` plugin is installed it registers a `fela` component in Vue's global scope.
 
@@ -342,13 +342,15 @@ An example using [Vue Meta's default values][vue-meta-options] while disabling S
 </template>
 ```
 
-#### Server Side Rendering
+### Universal Rendering
 
 The easiest way to create universal Vue applications is with [Nuxt][nuxt]. Nuxt takes care of setting up the logic for rendering Vue components on the server and rehydrating them on the client.
 
 Nuxt uses `vue-meta` to render and update tags in the `<head>` of your pages. [Vue Meta][vue-meta] provides the mechanism Vue Fela needs for rendering the cached styles on the server and sending them to the client.
 
 Because of this, the `fela` provider component is setup to work with `vue-meta` using [Nuxt's configuration options][nuxt-meta] by default.
+
+### Nuxt Example
 
 To setup Vue Fela with Nuxt you will need to create a file in the `plugins` directory:
 
