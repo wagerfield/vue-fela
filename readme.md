@@ -1,5 +1,7 @@
 # VueFela
 
+![build](https://img.shields.io/travis/wagerfield/vue-fela.svg)
+
 **[Fela][fela] plugin for [Vue][vue]**
 
 - [Installation](#installation)
