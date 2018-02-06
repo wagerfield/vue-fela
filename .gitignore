@@ -5,6 +5,7 @@ coverage
 
 # files
 .DS_Store
+.coveralls.yml
 
 # logs
 *.log
