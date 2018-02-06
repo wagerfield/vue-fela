@@ -366,8 +366,8 @@ Vue.use(VueFela)
 // 2. Create a fela renderer
 const renderer = createRenderer()
 
+// 3. Assign the renderer to the app on a 'fela' property
 export default ({ app }) => {
-  // 3. Assign the renderer to the app on a 'fela' property
   app.fela = renderer
 }
 ```
