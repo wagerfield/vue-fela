@@ -19,14 +19,14 @@
 ## Installation
 
 ```bash
-yarn add vue-fela-plugin
+yarn add vue-fela
 ```
 
 ## Usage
 
 ```js
 import Vue from 'vue'
-import VueFela from 'vue-fela-plugin'
+import VueFela from 'vue-fela'
 import { createRenderer } from 'fela'
 
 // 1. Install the plugin
@@ -94,7 +94,7 @@ To save having to define a computed prop function and return `this.$fela.renderR
 </template>
 
 <script>
-import { mapRule } from 'vue-fela-plugin'
+import { mapRule } from 'vue-fela'
 
 const rule = (props) => ({
   color: props.color,
@@ -145,7 +145,7 @@ Taking it one step further, the `mapRules` helper repeats the work of `mapRule`â
 </template>
 
 <script>
-import { mapRules } from 'vue-fela-plugin'
+import { mapRules } from 'vue-fela'
 
 const rules = {
   // We can use object destructuring on the rule props
@@ -212,7 +212,7 @@ export default {
 </template>
 
 <script>
-import { mapRules } from 'vue-fela-plugin'
+import { mapRules } from 'vue-fela'
 import rules from './component-rules'
 
 export default {
@@ -260,7 +260,7 @@ For example, using the same component and rules map from the example above:
 </template>
 
 <script>
-import { mapRules } from 'vue-fela-plugin'
+import { mapRules } from 'vue-fela'
 import rules from './component-rules'
 
 export default {
@@ -357,7 +357,7 @@ To setup Vue Fela with Nuxt you will need to create a file in the `plugins` dire
 ```js
 // plugins/fela.js
 import Vue from 'vue'
-import VueFela from 'vue-fela-plugin'
+import VueFela from 'vue-fela'
 import { createRenderer } from 'fela'
 
 // 1. Install the plugin
