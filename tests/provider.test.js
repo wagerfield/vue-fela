@@ -34,9 +34,28 @@ describe('Provider', () => {
     const localVue = installPlugin()
     localVue.component('foo', component)
     testSnapshot(wrapApp('fela', localVue, fela))
-    testSnapshot(wrapApp('fela', localVue, fela, { tag: 'main' }))
-    testSnapshot(wrapApp('fela', localVue, fela, { tag: 'foo' }))
-    testSnapshot(wrapApp('fela', localVue, fela, { tag: 'foo', props: { margin: 1 } }))
+    testSnapshot(wrapApp('fela', localVue, fela, {
+      tag: 'main'
+    }))
+    testSnapshot(wrapApp('fela', localVue, fela, {
+      tag: 'main'
+    }, {
+      id: 'main'
+    }))
+    testSnapshot(wrapApp('fela', localVue, fela, {
+      tag: 'foo'
+    }))
+    testSnapshot(wrapApp('fela', localVue, fela, {
+      tag: 'foo'
+    }, {
+      id: 'foo'
+    }))
+    testSnapshot(wrapApp('fela', localVue, fela, {
+      tag: 'foo',
+      props: {
+        margin: 1
+      }
+    }))
   })
 
   describe('client', () => {
