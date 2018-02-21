@@ -11,3 +11,7 @@ exports[`Provider renders expected snapshots 2`] = `
     <div class="a b c d e f"></div>
 </main>
 `;
+
+exports[`Provider renders expected snapshots 3`] = `<div class="a b c d e f"></div>`;
+
+exports[`Provider renders expected snapshots 4`] = `<div class="a b c d e f g"></div>`;

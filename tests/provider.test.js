@@ -14,16 +14,16 @@ const setVueEnv = (localVue, env) => {
   })
 }
 
-const createApp = (props, attrs) => ({
+const createApp = (tag, props, attrs) => ({
   render(createElement) {
     const data = { props, attrs }
     const child = createElement(component)
-    return createElement('fela', data, [ child ])
+    return createElement(tag, data, [ child ])
   }
 })
 
-const wrapApp = (localVue, fela, props, attrs) => {
-  const app = createApp(props, attrs)
+const wrapApp = (tag, localVue, fela, props, attrs) => {
+  const app = createApp(tag, props, attrs)
   return wrapComponent(app, localVue, fela)
 }
 
@@ -32,8 +32,11 @@ describe('Provider', () => {
   it('renders expected snapshots', () => {
     const fela = createRenderer()
     const localVue = installPlugin()
-    testSnapshot(wrapApp(localVue, fela))
-    testSnapshot(wrapApp(localVue, fela, { tag: 'main' }))
+    localVue.component('foo', component)
+    testSnapshot(wrapApp('fela', localVue, fela))
+    testSnapshot(wrapApp('fela', localVue, fela, { tag: 'main' }))
+    testSnapshot(wrapApp('fela', localVue, fela, { tag: 'foo' }))
+    testSnapshot(wrapApp('fela', localVue, fela, { tag: 'foo', props: { margin: 1 } }))
   })
 
   describe('client', () => {
@@ -48,14 +51,14 @@ describe('Provider', () => {
       expect(fela.updateSubscription).toBeUndefined()
       expect(fela.listeners).toHaveLength(0)
 
-      wrapApp(localVue, fela)
+      wrapApp('fela', localVue, fela)
 
       expect(fela.updateSubscription).toBeDefined()
       expect(fela.listeners).toHaveLength(1)
     })
 
     it('adds meta info to provider instance $options when ssr is true', () => {
-      const wrapper = wrapApp(localVue, fela, { ssr: true })
+      const wrapper = wrapApp('fela', localVue, fela, { ssr: true })
       const provider = wrapper.find(FelaProvider)
       const metaInfo = provider.vm.$options.head
 
@@ -63,7 +66,7 @@ describe('Provider', () => {
     })
 
     it('adds meta info to provider instance $options when ssr is false', () => {
-      const wrapper = wrapApp(localVue, fela, { ssr: false })
+      const wrapper = wrapApp('fela', localVue, fela, { ssr: false })
       const provider = wrapper.find(FelaProvider)
       const metaInfo = provider.vm.$options.head
 
@@ -72,7 +75,7 @@ describe('Provider', () => {
 
     it('adds meta info to provider instance $options on custom property', () => {
       const metaKeyName = 'custom'
-      const wrapper = wrapApp(localVue, fela, { metaKeyName })
+      const wrapper = wrapApp('fela', localVue, fela, { metaKeyName })
       const provider = wrapper.find(FelaProvider)
       const metaInfo = provider.vm.$options[metaKeyName]
 
@@ -92,14 +95,14 @@ describe('Provider', () => {
       expect(fela.updateSubscription).toBeUndefined()
       expect(fela.listeners).toHaveLength(0)
 
-      wrapApp(localVue, fela)
+      wrapApp('fela', localVue, fela)
 
       expect(fela.updateSubscription).toBeUndefined()
       expect(fela.listeners).toHaveLength(0)
     })
 
     it('adds meta info to provider instance $options when ssr is true', () => {
-      const wrapper = wrapApp(localVue, fela, { ssr: true })
+      const wrapper = wrapApp('fela', localVue, fela, { ssr: true })
       const provider = wrapper.find(FelaProvider)
       const metaInfo = provider.vm.$options.head
 
@@ -107,7 +110,7 @@ describe('Provider', () => {
     })
 
     it('does not add meta info to provider instance $options when ssr is false', () => {
-      const wrapper = wrapApp(localVue, fela, { ssr: false })
+      const wrapper = wrapApp('fela', localVue, fela, { ssr: false })
       const provider = wrapper.find(FelaProvider)
       const metaInfo = provider.vm.$options.head
 
@@ -116,7 +119,7 @@ describe('Provider', () => {
 
     it('adds meta info to provider instance $options on custom property', () => {
       const metaKeyName = 'custom'
-      const wrapper = wrapApp(localVue, fela, { metaKeyName })
+      const wrapper = wrapApp('fela', localVue, fela, { metaKeyName })
       const provider = wrapper.find(FelaProvider)
       const metaInfo = provider.vm.$options[metaKeyName]
 

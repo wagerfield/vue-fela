@@ -326,8 +326,9 @@ The `fela` provider component has 4 props that can be optionally set:
 
 Attribute | Type | Default | Description
 ----------|------|---------|------------
-`tag` | `String` | `div` | HTML tag to render
+`tag` | `String` | `div` | HTML tag or registered component name
 `ssr` | `Boolean` | `true` | Enable/disable SSR
+`props` | `Object` | `undefined` | Props data to pass when `tag` is set to a registered component name
 `metaTagId` | `String` | `hid` | Vue Meta `tagIDKeyName` [option][vue-meta-options]<br>This is [configured to work with Nuxt][nuxt-meta] by default
 `metaKeyName` | `String` | `head` | Vue Meta `keyName` [option][vue-meta-options]<br>This is [configured to work with Nuxt][nuxt-meta] by default
 
