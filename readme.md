@@ -10,6 +10,7 @@
     - [Rendering Rules](#rendering-rules)
         - [mapRule(rule, optProps)](#map-rule)
         - [mapRules(rules, optMap, optProps)](#map-rules)
+        - [mapStyles(rules, optMap, optProps)](#map-styles)
     - [Rendering Styles](#rendering-styles)
         - [Fela Provider](#fela-provider)
         - [Universal Rendering](#universal-rendering)
@@ -238,6 +239,8 @@ This behaviour might not always be desirable, so `mapRules` provides another lev
 
 If you have used [Vuex's mapping helpers][vuex-helpers] the following interface should look familiar to you.
 
+#### optMap
+
 The `optMap` argument can either be:
 
 1. An Array of Strings where:
@@ -287,7 +290,80 @@ export default {
 
 In the example above you can see that we have used the [object spread operator][object-spread] to merge multiple calls to `mapRules` onto the component's `computed` props object. We have also omitted the `body` rule from the `component-rules.js` map.
 
+#### optProps
+
 Finally, much like the `mapRule` helper, `optProps` can be passed as the _third argument_ to `mapRules`. Omitting `optProps` will result in the component instance being passed to each of the rules as the `props` argument by default.
+
+<a name="map-styles"></a>
+
+### mapStyles(rules, optMap, optProps)
+
+If your component has properties that clash with your rule names when mapping them to the `computed` object—you have a couple of options:
+
+1. Pass an `optMap` argument to `mapRules` to alias your rule names to different ones eg. `iconClass: 'icon'`
+2. Use a naming convention for all your rules that separates them from your component `props` eg. `iconRule` or `iconClass`
+
+The first option requires more code in your components. The second option compromises the precise naming of your rules. Neither options are ideal.
+
+As a third option you can use the `mapStyles` helper.
+
+This helper works in _exactly the same way_ as `mapRules`, but rather than returning an object map of computed functions, it returns a single computed function.
+
+The computed function returned from the `mapStyles` helper will then return an object map of class names that are the result of rendering your `rules`.
+
+This allows you to assign all your rules to a single `computed` property eg. `styles` and render the result of each rule within your template using dot syntax eg. `styles.icon`:
+
+```vue
+<template>
+  <div>
+    <svg :class="styles.icon">...</svg>
+    <span :class="styles.text">{icon}</span>
+  </div>
+</template>
+
+<script>
+import { mapStyles } from 'vue-fela'
+
+const rules = {
+  // Here we have a rule name that is the
+  // same as one of the component props
+  icon: ({ size, color }) => ({
+    width: size,
+    height: size,
+    fill: color
+  }),
+  text: ({ size, color }) => ({
+    fontSize: size,
+    color
+  })
+}
+
+export default {
+  props: {
+    icon: {
+      type: String
+    },
+    size: {
+      type: Number,
+      default: 16
+    },
+    color: {
+      type: 'String',
+      default: 'red'
+    }
+  },
+  computed: {
+    // All rules are assigned to a single computed 'styles'
+    // property and do not clash with any other props
+    styles: mapStyles(rules)
+  }
+}
+</script>
+```
+
+The function signature of `mapStyles(rules, optMap, optProps)` is identical to `mapRules(rules, optMap, optProps)`.
+
+For an explanation of what the `optMap` and `optProps` arguments do please [read the documentation](#optmap) above.
 
 ## Rendering Styles
 
