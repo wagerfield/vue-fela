@@ -14,18 +14,12 @@ const setVueEnv = (localVue, env) => {
   })
 }
 
-const createChild = (options) => Object.assign({
-  render(createElement) {
-    return createElement('div')
-  }
-}, options)
-
-const createApp = (tag, data, children, options) => Object.assign({
+const createApp = (tag, data, children) => ({
   render(createElement) {
     const nodes = children ? children : [ component ]
     return createElement(tag, data, nodes.map(createElement))
   }
-}, options)
+})
 
 const wrapApp = (tag, localVue, fela, data, children) => {
   const app = createApp(tag, data, children)
@@ -33,22 +27,6 @@ const wrapApp = (tag, localVue, fela, data, children) => {
 }
 
 describe('Provider', () => {
-
-  it('provides fela renderer to children', () => {
-    const fela = createRenderer()
-    const localVue = installPlugin()
-    const child1 = createChild()
-    const child2 = createChild({ inject: [ 'fela' ] })
-
-    const appWrapper1 = wrapApp('fela', localVue, fela, null, [ child1 ])
-    const appWrapper2 = wrapApp('fela', localVue, fela, null, [ child2 ])
-
-    const childWrapper1 = appWrapper1.find(child1)
-    const childWrapper2 = appWrapper2.find(child2)
-
-    expect(childWrapper1.vm.fela).toBeUndefined()
-    expect(childWrapper2.vm.fela).toBe(fela)
-  })
 
   it('renders expected snapshots', () => {
     const fela = createRenderer()
