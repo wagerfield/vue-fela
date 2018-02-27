@@ -54,6 +54,23 @@ describe('Plugin', () => {
     expect(child.vm.$fela).toBe(fela)
   })
 
+  it('provides fela renderer to children via inject', () => {
+    const fela = createRenderer()
+    const localVue = installPlugin()
+
+    const child1 = createComponent()
+    const child2 = createComponent(null, null, { inject: [ 'fela' ] })
+    const parent = createComponent(null, [ child1, child2 ])
+
+    const parentWrapper = wrapComponent(parent, localVue, fela)
+    const childWrapper1 = parentWrapper.find(child1)
+    const childWrapper2 = parentWrapper.find(child2)
+
+    expect(parentWrapper.vm.fela).toBeUndefined()
+    expect(childWrapper1.vm.fela).toBeUndefined()
+    expect(childWrapper2.vm.fela).toBe(fela)
+  })
+
   it('registers a fela component in the global scope', () => {
     const localVue = installPlugin()
     expect(localVue.options.components.fela).toBeDefined()
