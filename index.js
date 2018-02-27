@@ -5,5 +5,7 @@ module.exports = {
   install: install,
   mapRule: helpers.mapRule,
   mapRules: helpers.mapRules,
-  mapStyles: helpers.mapStyles
+  mapStyles: helpers.mapStyles,
+  renderRule: helpers.renderRule,
+  renderRules: helpers.renderRules
 }
