@@ -14,20 +14,41 @@ const setVueEnv = (localVue, env) => {
   })
 }
 
-const createApp = (tag, props, attrs) => ({
+const createChild = (options) => Object.assign({
   render(createElement) {
-    const data = { props, attrs }
-    const child = createElement(component)
-    return createElement(tag, data, [ child ])
+    return createElement('div')
   }
-})
+}, options)
 
-const wrapApp = (tag, localVue, fela, props, attrs) => {
-  const app = createApp(tag, props, attrs)
+const createApp = (tag, data, children, options) => Object.assign({
+  render(createElement) {
+    const nodes = children ? children : [ component ]
+    return createElement(tag, data, nodes.map(createElement))
+  }
+}, options)
+
+const wrapApp = (tag, localVue, fela, data, children) => {
+  const app = createApp(tag, data, children)
   return wrapComponent(app, localVue, fela)
 }
 
 describe('Provider', () => {
+
+  it('provides fela renderer to children', () => {
+    const fela = createRenderer()
+    const localVue = installPlugin()
+    const child1 = createChild()
+    const child2 = createChild({ inject: [ 'fela' ] })
+
+    const appWrapper1 = wrapApp('fela', localVue, fela, null, [ child1 ])
+    const appWrapper2 = wrapApp('fela', localVue, fela, null, [ child2 ])
+
+    const childWrapper1 = appWrapper1.find(child1)
+    const childWrapper2 = appWrapper2.find(child2)
+
+    expect(childWrapper1.vm.fela).toBeUndefined()
+    expect(childWrapper2.vm.fela).toBe(fela)
+  })
 
   it('renders expected snapshots', () => {
     const fela = createRenderer()
@@ -35,25 +56,25 @@ describe('Provider', () => {
     localVue.component('foo', component)
     testSnapshot(wrapApp('fela', localVue, fela))
     testSnapshot(wrapApp('fela', localVue, fela, {
-      tag: 'main'
+      props: { tag: 'main' }
     }))
     testSnapshot(wrapApp('fela', localVue, fela, {
-      tag: 'main'
-    }, {
-      id: 'main'
+      props: { tag: 'main' },
+      attrs: { id: 'main' }
     }))
     testSnapshot(wrapApp('fela', localVue, fela, {
-      tag: 'foo'
+      props: { tag: 'foo' }
     }))
     testSnapshot(wrapApp('fela', localVue, fela, {
-      tag: 'foo'
-    }, {
-      id: 'foo'
+      props: { tag: 'foo' },
+      attrs: { id: 'foo' }
     }))
     testSnapshot(wrapApp('fela', localVue, fela, {
-      tag: 'foo',
       props: {
-        margin: 1
+        tag: 'foo',
+        props: {
+          margin: 1
+        }
       }
     }))
   })
@@ -77,7 +98,7 @@ describe('Provider', () => {
     })
 
     it('adds meta info to provider instance $options when ssr is true', () => {
-      const wrapper = wrapApp('fela', localVue, fela, { ssr: true })
+      const wrapper = wrapApp('fela', localVue, fela, { props: { ssr: true } })
       const provider = wrapper.find(FelaProvider)
       const metaInfo = provider.vm.$options.head
 
@@ -85,7 +106,7 @@ describe('Provider', () => {
     })
 
     it('adds meta info to provider instance $options when ssr is false', () => {
-      const wrapper = wrapApp('fela', localVue, fela, { ssr: false })
+      const wrapper = wrapApp('fela', localVue, fela, { props: { ssr: false } })
       const provider = wrapper.find(FelaProvider)
       const metaInfo = provider.vm.$options.head
 
@@ -94,7 +115,7 @@ describe('Provider', () => {
 
     it('adds meta info to provider instance $options on custom property', () => {
       const metaKeyName = 'custom'
-      const wrapper = wrapApp('fela', localVue, fela, { metaKeyName })
+      const wrapper = wrapApp('fela', localVue, fela, { props: { metaKeyName } })
       const provider = wrapper.find(FelaProvider)
       const metaInfo = provider.vm.$options[metaKeyName]
 
@@ -121,7 +142,7 @@ describe('Provider', () => {
     })
 
     it('adds meta info to provider instance $options when ssr is true', () => {
-      const wrapper = wrapApp('fela', localVue, fela, { ssr: true })
+      const wrapper = wrapApp('fela', localVue, fela, { props: { ssr: true } })
       const provider = wrapper.find(FelaProvider)
       const metaInfo = provider.vm.$options.head
 
@@ -129,7 +150,7 @@ describe('Provider', () => {
     })
 
     it('does not add meta info to provider instance $options when ssr is false', () => {
-      const wrapper = wrapApp('fela', localVue, fela, { ssr: false })
+      const wrapper = wrapApp('fela', localVue, fela, { props: { ssr: false } })
       const provider = wrapper.find(FelaProvider)
       const metaInfo = provider.vm.$options.head
 
@@ -138,7 +159,7 @@ describe('Provider', () => {
 
     it('adds meta info to provider instance $options on custom property', () => {
       const metaKeyName = 'custom'
-      const wrapper = wrapApp('fela', localVue, fela, { metaKeyName })
+      const wrapper = wrapApp('fela', localVue, fela, { props: { metaKeyName } })
       const provider = wrapper.find(FelaProvider)
       const metaInfo = provider.vm.$options[metaKeyName]
 
