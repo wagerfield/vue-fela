@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import VueFela from '../../index'
-import renderer from '../styles'
+import renderer from '../fela'
 
 Vue.use(VueFela)
 
-export default ({ app }) => {
-  app.fela = renderer
+export default (context, inject) => {
+  inject('fela', renderer)
 }

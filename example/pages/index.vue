@@ -9,12 +9,12 @@ import { mapRules } from '../../index'
 
 const views = [{
   text: 'Nuxt',
-  textColor: '#FCEADE',
-  bgColor: '#EA526F'
+  textColor: '#35495E',
+  bgColor: '#5BB984'
 }, {
   text: 'Fela',
-  textColor: '#3D315B',
-  bgColor: '#F8F991'
+  textColor: '#5246E7',
+  bgColor: '#73DCFC'
 }]
 
 const rules = {
