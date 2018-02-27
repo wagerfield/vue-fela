@@ -23,12 +23,15 @@ export const installPlugin = () => {
   return localVue
 }
 
-export const createComponent = (data, children) => ({
-  render(createElement) {
-    const vnodes = isArray(children) ? children.map(createElement) : null
-    return createElement('div', data, vnodes)
-  }
-})
+export const createComponent = (data, children, options) => {
+  return Object.assign(options || {}, {
+    render(createElement) {
+      const vnodes = isArray(children) ?
+        children.map(createElement) : null
+      return createElement('div', data, vnodes)
+    }
+  })
+}
 
 export const wrapComponent = (component, localVue, fela, propsData) => {
   return mount(component, { localVue, fela, propsData })
