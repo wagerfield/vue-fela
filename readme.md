@@ -11,6 +11,8 @@
         - [mapRule(rule, optProps)](#map-rule)
         - [mapRules(rules, optMap, optProps)](#map-rules)
         - [mapStyles(rules, optMap, optProps)](#map-styles)
+        - [renderRule(renderer, rule, props)](#render-rule)
+        - [renderRules(renderer, rules, props, optMap)](#render-rules)
     - [Rendering Styles](#rendering-styles)
         - [Fela Provider](#fela-provider)
         - [Universal Rendering](#universal-rendering)
@@ -43,6 +45,8 @@ const app = new Vue({
 ```
 
 When the plugin is installed, a `$fela` property is set on each Vue component instance in the [`beforeCreate`][vue-before-create] hook. The `$fela` property provides a reference to the [Fela Renderer][fela-renderer] instance that was injected into the root application.
+
+The Fela Renderer instance is also [provided][vue-provide-inject] through the `inject` interface on a `fela` key. This allows you to access the renderer within [functional Vue components][vue-functional].
 
 **Check out a full working [example using Nuxt](example).**
 
@@ -363,7 +367,94 @@ export default {
 
 The function signature of `mapStyles(rules, optMap, optProps)` is identical to `mapRules(rules, optMap, optProps)`.
 
-For an explanation of what the `optMap` and `optProps` arguments do please [read the documentation](#optmap) above.
+[Read the documentation](#optmap) on `optMap` and `optProps` above.
+
+<a name="render-rule"></a>
+
+### renderRule(renderer, rule, props)
+
+When creating [functional Vue components][vue-functional] you can `inject` the Fela Renderer instance via the `fela` key:
+
+```js
+export default {
+  functional: true,
+  inject: [ 'fela' ],
+  render(h, { data, children, injections }) {
+    // Reference to Fela Renderer instance
+    const renderer = injections.fela
+    return h('span', data, children)
+  }
+}
+```
+
+To render a single Fela `rule` you can either use the Fela Renderer instance's `renderRule` method directly or you can use the `renderRule` helper provided by Vue Fela. They do exactly the same thing—this is just a matter of style:
+
+```js
+import { renderRule } from 'vue-fela'
+
+const rule = ({ color }) => ({ color })
+
+export default {
+  functional: true,
+  inject: [ 'fela' ],
+  props: { color: String },
+  render(h, { props, children, injections }) {
+    const renderer = injections.fela
+    // The following 2 lines return exactly the same value
+    const class1 = renderRule(renderer, rule, props)
+    const class2 = renderer.renderRule(rule, props)
+    // class1 === class2
+    return h('span', {
+      class: [ class1, class2 ]
+    }, children)
+  }
+}
+```
+
+<a name="render-rules"></a>
+
+### renderRules(renderer, rules, props, optMap)
+
+When using an object map of `rules` within a [functional Vue component][vue-functional] you can use the `renderRules` helper provided by Vue Fela:
+
+```js
+import { renderRules } from 'vue-fela'
+
+const rules = {
+  container: ({ fillColor }) => ({
+    backgroundColor: fillColor,
+    padding: '8px'
+  }),
+  text: ({ textColor }) => ({
+    color: textColor,
+    fontSize: '16px'
+  }),
+}
+
+export default {
+  functional: true,
+  inject: [ 'fela' ],
+  props: {
+    fillColor: String,
+    textColor: String
+  },
+  render(h, { props, children, injections }) {
+    const renderer = injections.fela
+    const styles = renderRules(renderer, rules, props)
+    return h('div', {
+      class: styles.container
+    }, [
+      h('span', {
+        class: styles.text
+      }, children)
+    ])
+  }
+}
+```
+
+You can also optionally pass `optMap` as the final argument to the `renderRules` helper.
+
+This works in exactly the same way as [documented above](#optmap) in the `mapRules` helper.
 
 ## Rendering Styles
 
@@ -496,6 +587,8 @@ yarn test-coverage
 
 [vue]: https://vuejs.org
 [vue-sfc]: https://vuejs.org/v2/guide/single-file-components.html
+[vue-functional]: https://vuejs.org/v2/guide/render-function.html#Functional-Components
+[vue-provide-inject]: https://vuejs.org/v2/api/#provide-inject
 [vue-before-create]: https://vuejs.org/v2/api/#beforeCreate
 
 [vue-test-utils]: https://vue-test-utils.vuejs.org
