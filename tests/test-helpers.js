@@ -23,12 +23,12 @@ export const installPlugin = () => {
   return localVue
 }
 
-export const createComponent = (data, children, options) => {
+export const createComponent = (tag, data, children, options) => {
   return Object.assign(options || {}, {
     render(createElement) {
       const vnodes = isArray(children) ?
         children.map(createElement) : null
-      return createElement('div', data, vnodes)
+      return createElement(tag, data, vnodes)
     }
   })
 }

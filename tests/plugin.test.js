@@ -32,7 +32,7 @@ describe('Plugin', () => {
 
   it('does not set $fela property on component instances', () => {
     const localVue = installPlugin()
-    const component = createComponent()
+    const component = createComponent('div')
     const wrapper = wrapComponent(component, localVue)
     expect(wrapper.vm.$fela).toBeUndefined()
   })
@@ -40,8 +40,8 @@ describe('Plugin', () => {
   it('sets $fela property on component instances', () => {
     const localVue = installPlugin()
     const fela = createRenderer()
-    const inner = createComponent()
-    const outer = createComponent(null, [ inner ])
+    const inner = createComponent('div')
+    const outer = createComponent('div', null, [ inner ])
 
     const wrapper = wrapComponent(outer, localVue, fela)
     expect(wrapper.vm.$options.fela).toBe(fela)
@@ -58,9 +58,9 @@ describe('Plugin', () => {
     const fela = createRenderer()
     const localVue = installPlugin()
 
-    const child1 = createComponent()
-    const child2 = createComponent(null, null, { inject: [ 'fela' ] })
-    const parent = createComponent(null, [ child1, child2 ])
+    const child1 = createComponent('div')
+    const child2 = createComponent('div', null, null, { inject: [ 'fela' ] })
+    const parent = createComponent('div', null, [ child1, child2 ])
 
     const parentWrapper = wrapComponent(parent, localVue, fela)
     const childWrapper1 = parentWrapper.find(child1)
