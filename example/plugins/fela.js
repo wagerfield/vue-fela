@@ -4,6 +4,6 @@ import renderer from '../fela'
 
 Vue.use(VueFela)
 
-export default (context, inject) => {
-  inject('fela', renderer)
+export default ({ app }) => {
+  app.fela = renderer
 }
