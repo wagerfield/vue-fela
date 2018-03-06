@@ -60,24 +60,28 @@ Object {
   "style": Array [
     Object {
       "cssText": "@font-face{font-weight:300;src:url('../fonts/Lato.ttf') format('truetype'),url('../fonts/Lato.eot') format('embedded-opentype');font-family:\\"Lato\\"}",
+      "data-fela-rehydration": 3,
       "data-fela-type": "FONT",
       "hid": "font",
       "type": "text/css",
     },
     Object {
       "cssText": "body{margin:0}*{box-sizing:border-box}",
+      "data-fela-rehydration": 3,
       "data-fela-type": "STATIC",
       "hid": "static",
       "type": "text/css",
     },
     Object {
       "cssText": ".a{width:8px}.b{color:red}",
+      "data-fela-rehydration": 3,
       "data-fela-type": "RULE",
       "hid": "rule",
       "type": "text/css",
     },
     Object {
       "cssText": ".c{color:red}",
+      "data-fela-rehydration": 3,
       "data-fela-type": "RULE",
       "hid": "rule(min-width: 8px)",
       "media": "(min-width: 8px)",
