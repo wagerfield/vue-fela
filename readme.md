@@ -4,4 +4,6 @@ https://www.npmjs.com/package/vue-fela
 
 Please install `vue-fela` instead:
 
-    yarn vue-fela
+```
+yarn add vue-fela
+```
