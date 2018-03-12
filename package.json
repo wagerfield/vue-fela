@@ -15,55 +15,11 @@
     "lib"
   ],
   "main": "index.js",
-  "jest": {
-    "mapCoverage": true,
-    "moduleFileExtensions": [
-      "js",
-      "vue"
-    ],
-    "snapshotSerializers": [
-      "jest-serializer-vue"
-    ],
-    "transform": {
-      "^.+\\.js$": "babel-jest",
-      "^.+\\.vue$": "vue-jest"
-    }
-  },
-  "scripts": {
-    "lint": "eslint .",
-    "test": "jest --coverage && cat ./coverage/lcov.info | coveralls",
-    "test-watch": "jest --watch",
-    "test-coverage": "jest --coverage",
-    "precommit": "npm run lint && npm run test"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wagerfield/vue-fela.git"
   },
   "bugs": {
     "url": "https://github.com/wagerfield/vue-fela/issues"
-  },
-  "dependencies": {
-    "fela-dom": "^7.0.4"
-  },
-  "peerDependencies": {
-    "fela": "^6.1.3"
-  },
-  "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-jest": "^22.1.0",
-    "babel-preset-env": "^1.6.1",
-    "coveralls": "^3.0.0",
-    "eslint": "^4.16.0",
-    "eslint-config-supermind": "^0.48.0",
-    "fela": "^6.1.3",
-    "husky": "^0.14.3",
-    "jest": "^22.1.4",
-    "jest-serializer-vue": "^0.3.0",
-    "vue": "^2.5.13",
-    "vue-jest": "^1.4.0",
-    "vue-server-renderer": "^2.5.13",
-    "vue-template-compiler": "^2.5.13",
-    "vue-test-utils": "^1.0.0-beta.11"
   }
 }

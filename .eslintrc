@@ -1,16 +1,4 @@
 {
   "root": true,
-  "extends": "supermind",
-  "env": {
-    "jest": true
-  },
-  "rules": {
-    "guard-for-in": "off",
-    "no-invalid-this": "off",
-    "no-undefined": "off",
-    "no-var": "off"
-  },
-  "settings": {
-    "import/core-modules": [ "vue", "vuex" ]
-  }
+  "extends": "supermind"
 }
