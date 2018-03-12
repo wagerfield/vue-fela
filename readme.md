@@ -38,9 +38,12 @@ Vue.use(VueFela)
 // 2. Create a fela renderer
 const renderer = createRenderer()
 
-// 3. Inject the renderer on a 'fela' property
+// 3. Inject and provide the renderer on a 'fela' property
 const app = new Vue({
-  fela: renderer
+  fela: renderer,
+  provide: {
+    fela: renderer
+  }
 }).$mount('#app')
 ```
 
@@ -534,9 +537,12 @@ Vue.use(VueFela)
 // 2. Create a fela renderer
 const renderer = createRenderer()
 
-// 3. Inject the renderer on a 'fela' key
-export default (context, inject) => {
+// 3. Inject and provide the renderer on a 'fela' key
+export default ({ app }, inject) => {
   inject('fela', renderer)
+  app.provide = Object.assign({
+    fela: renderer
+  }, app.provide)
 }
 ```
 
