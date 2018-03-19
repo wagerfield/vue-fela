@@ -1,64 +1,8 @@
 import {
-  isArray,
-  isObject,
   mapArray,
   reduceArray,
   reduceObject
 } from '../lib/utils'
-
-describe('isArray', () => {
-
-  it('returns true for arrays', () => {
-    expect(isArray([])).toBe(true)
-  })
-
-  it('returns false for objects', () => {
-    expect(isArray({})).toBe(false)
-  })
-
-  it('returns false for numbers', () => {
-    expect(isArray(0)).toBe(false)
-    expect(isArray(1)).toBe(false)
-  })
-
-  it('returns false for strings', () => {
-    expect(isArray('foo')).toBe(false)
-    expect(isArray('')).toBe(false)
-  })
-
-  it('returns false for nil values', () => {
-    expect(isArray(false)).toBe(false)
-    expect(isArray(null)).toBe(false)
-    expect(isArray()).toBe(false)
-  })
-})
-
-describe('isObject', () => {
-
-  it('returns true for objects', () => {
-    expect(isObject({})).toBe(true)
-  })
-
-  it('returns false for arrays', () => {
-    expect(isObject([])).toBe(false)
-  })
-
-  it('returns false for numbers', () => {
-    expect(isObject(0)).toBe(false)
-    expect(isObject(1)).toBe(false)
-  })
-
-  it('returns false for strings', () => {
-    expect(isObject('foo')).toBe(false)
-    expect(isObject('')).toBe(false)
-  })
-
-  it('returns false for nil values', () => {
-    expect(isObject(false)).toBe(false)
-    expect(isObject(null)).toBe(false)
-    expect(isObject()).toBe(false)
-  })
-})
 
 describe('mapArray', () => {
 

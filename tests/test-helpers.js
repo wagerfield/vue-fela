@@ -1,6 +1,6 @@
+import isArray from 'isarray'
 import { createLocalVue, mount } from 'vue-test-utils'
 import { createRenderer } from 'vue-server-renderer'
-import { isArray } from '../lib/utils'
 import VueFela from '../index'
 
 export const VueRenderer = createRenderer()

@@ -1,5 +1,6 @@
+import isArray from 'isarray'
+import isObject from 'isobject'
 import { createRenderer } from 'fela'
-import { isArray, isObject } from '../lib/utils'
 import { mapRules } from '../index'
 import {
   testSnapshot,
