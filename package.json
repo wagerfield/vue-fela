@@ -44,6 +44,7 @@
     "url": "https://github.com/wagerfield/vue-fela/issues"
   },
   "dependencies": {
+    "fast-loops": "^1.0.0",
     "fela-dom": "^7.0.4",
     "isarray": "^2.0.4",
     "isobject": "^3.0.1"
