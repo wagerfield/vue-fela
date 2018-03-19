@@ -44,7 +44,9 @@
     "url": "https://github.com/wagerfield/vue-fela/issues"
   },
   "dependencies": {
-    "fela-dom": "^7.0.4"
+    "fela-dom": "^7.0.4",
+    "isarray": "^2.0.4",
+    "isobject": "^3.0.1"
   },
   "peerDependencies": {
     "fela": "^6.1.3"
