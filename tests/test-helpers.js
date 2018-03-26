@@ -1,13 +1,9 @@
 import isArray from 'isarray'
-import { createLocalVue, mount } from 'vue-test-utils'
 import { createRenderer } from 'vue-server-renderer'
+import { createLocalVue, mount } from 'vue-test-utils'
 import VueFela from '../index'
 
 export const VueRenderer = createRenderer()
-
-export const MetaInfo = expect.objectContaining({
-  style: expect.any(Array)
-})
 
 export const FelaRenderer = expect.objectContaining({
   renderKeyframe: expect.any(Function),
@@ -17,9 +13,9 @@ export const FelaRenderer = expect.objectContaining({
   plugins: expect.any(Array)
 })
 
-export const installPlugin = () => {
+export const installPlugin = (options) => {
   const localVue = createLocalVue()
-  localVue.use(VueFela)
+  localVue.use(VueFela, options)
   return localVue
 }
 
@@ -33,8 +29,8 @@ export const createComponent = (tag, data, children, options = {}) => {
   })
 }
 
-export const wrapComponent = (component, localVue, fela, propsData) => {
-  return mount(component, { localVue, fela, propsData })
+export const wrapComponent = (component, localVue, options) => {
+  return mount(component, Object.assign({ localVue }, options))
 }
 
 export const testSnapshot = (wrapper) => {
