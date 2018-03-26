@@ -5,8 +5,10 @@
     "jest": true
   },
   "rules": {
+    "complexity": "off",
     "guard-for-in": "off",
     "no-invalid-this": "off",
+    "no-mixed-operators": "off",
     "no-undefined": "off",
     "no-var": "off"
   },
