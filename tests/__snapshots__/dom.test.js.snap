@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DOM mapStyle(style) renders expected snapshots 1`] = `
+Object {
+  "type": "text/css",
+}
+`;
+
+exports[`DOM mapStyle(style) renders expected snapshots 2`] = `
+Object {
+  "cssText": ".a{color:black}",
+  "data-fela-type": "RULE",
+  "hid": "rule",
+  "type": "text/css",
+}
+`;
+
+exports[`DOM mapStyle(style) renders expected snapshots 3`] = `
+Object {
+  "cssText": ".a{color:black}",
+  "data-fela-type": "STATIC",
+  "hid": "static",
+  "type": "text/css",
+}
+`;
+
+exports[`DOM mapStyle(style) renders expected snapshots 4`] = `
+Object {
+  "cssText": ".a{color:black}",
+  "data-fela-type": "RULE",
+  "hid": "rule(min-width:300px)",
+  "media": "(min-width:300px)",
+  "type": "text/css",
+}
+`;
+
+exports[`DOM mapStyle(style) renders expected snapshots 5`] = `
+Object {
+  "cssText": ".a{color:black}",
+  "data-fela-support": true,
+  "data-fela-type": "RULE",
+  "hid": "rule[support](min-width:300px)",
+  "media": "(min-width:300px)",
+  "type": "text/css",
+}
+`;
+
+exports[`DOM mapStyle(style) renders expected snapshots 6`] = `
+Object {
+  "cssText": ".a{color:black}",
+  "data-fela-support": true,
+  "data-fela-type": "RULE",
+  "hid": "rule[support]",
+  "type": "text/css",
+}
+`;
+
+exports[`DOM renderServerStyles(renderer) renders expected snapshot 1`] = `
+Array [
+  Object {
+    "cssText": "@font-face{font-weight:300;src:url('../fonts/Lato.ttf') format('truetype'),url('../fonts/Lato.eot') format('embedded-opentype');font-family:\\"Lato\\"}",
+    "data-fela-rehydration": 3,
+    "data-fela-type": "FONT",
+    "hid": "font",
+    "type": "text/css",
+  },
+  Object {
+    "cssText": "body{margin:0}*{box-sizing:border-box}",
+    "data-fela-rehydration": 3,
+    "data-fela-type": "STATIC",
+    "hid": "static",
+    "type": "text/css",
+  },
+  Object {
+    "cssText": ".a{width:8px}.b{color:red}",
+    "data-fela-rehydration": 3,
+    "data-fela-type": "RULE",
+    "hid": "rule",
+    "type": "text/css",
+  },
+  Object {
+    "cssText": ".c{color:red}",
+    "data-fela-rehydration": 3,
+    "data-fela-type": "RULE",
+    "hid": "rule(min-width: 8px)",
+    "media": "(min-width: 8px)",
+    "type": "text/css",
+  },
+]
+`;
