@@ -1,22 +1,22 @@
 # [Fela][fela] plugin for [Vue][vue]
 
-[![build](https://img.shields.io/travis/wagerfield/vue-fela.svg)]()
-[![coveralls](https://img.shields.io/coveralls/github/wagerfield/vue-fela.svg)]()
-[![issues](https://img.shields.io/github/issues/wagerfield/vue-fela.svg)]()
-[![license](https://img.shields.io/github/license/wagerfield/vue-fela.svg)]()
+![build](https://img.shields.io/travis/wagerfield/vue-fela.svg)
+![coveralls](https://img.shields.io/coveralls/github/wagerfield/vue-fela.svg)
+![issues](https://img.shields.io/github/issues/wagerfield/vue-fela.svg)
+![license](https://img.shields.io/github/license/wagerfield/vue-fela.svg)
 
 - [Installation](#installation)
 - [Usage](#usage)
-    - [Rendering Rules](#rendering-rules)
-        - [mapRule(rule, optProps)](#map-rule)
-        - [mapRules(rules, optMap, optProps)](#map-rules)
-        - [mapStyles(rules, optMap, optProps)](#map-styles)
-        - [renderRule(renderer, rule, props)](#render-rule)
-        - [renderRules(renderer, rules, props, optMap)](#render-rules)
-    - [Rendering Styles](#rendering-styles)
-        - [Fela Provider](#fela-provider)
-        - [Universal Rendering](#universal-rendering)
-        - [Nuxt Example](#nuxt-example)
+  - [Rendering Rules](#rendering-rules)
+    - [mapRule(rule, optProps)](#map-rule)
+    - [mapRules(rules, optMap, optProps)](#map-rules)
+    - [mapStyles(rules, optMap, optProps)](#map-styles)
+    - [renderRule(renderer, rule, props)](#render-rule)
+    - [renderRules(renderer, rules, props, optMap)](#render-rules)
+  - [Rendering Styles](#rendering-styles)
+    - [Plugin Options](#plugin-options)
+    - [Universal Rendering](#universal-rendering)
+    - [Nuxt Example](#nuxt-example)
 - [Tests](#tests)
 
 ## Installation
@@ -32,22 +32,14 @@ import Vue from 'vue'
 import VueFela from 'vue-fela'
 import { createRenderer } from 'fela'
 
-// 1. Install the plugin
-Vue.use(VueFela)
-
-// 2. Create a fela renderer
+// 1. Create a Fela renderer
 const renderer = createRenderer()
 
-// 3. Inject and provide the renderer on a 'fela' property
-const app = new Vue({
-  fela: renderer,
-  provide: {
-    fela: renderer
-  }
-}).$mount('#app')
+// 2. Install the plugin and pass the renderer as an option
+Vue.use(VueFela, { renderer })
 ```
 
-When the plugin is installed, a `$fela` property is set on each Vue component instance in the [`beforeCreate`][vue-before-create] hook. The `$fela` property provides a reference to the [Fela Renderer][fela-renderer] instance that was injected into the root application.
+When the plugin is installed, a `$fela` property is set on Vue's `prototype` making it available on each component instance. The `$fela` property provides a reference to the [Fela Renderer][fela-renderer] instance that was passed as an option when the plugin was installed.
 
 The Fela Renderer instance is also [provided][vue-provide-inject] through the `inject` interface on a `fela` key. This allows you to access the renderer within [functional Vue components][vue-functional].
 
@@ -55,7 +47,7 @@ The Fela Renderer instance is also [provided][vue-provide-inject] through the `i
 
 ## Rendering Rules
 
-Since a [Fela Renderer][fela-renderer] instance is bound to each Vue component instance, you can reference and use it via `this.$fela`.
+Since a [Fela Renderer][fela-renderer] instance is assigned to Vue's `prototype`, you can reference and use within a Vue component via `this.$fela`.
 
 See the [Single File Component][vue-sfc] example below:
 
@@ -88,7 +80,7 @@ export default {
 
 In the example above, we are passing `this` as the rule's `props` to Fela's `renderRule` function. Doing so will give the rule access to all the component instance properties such as `color` to derive the styles.
 
-You can of course pass any arbitary `props` object as the second argument to `renderRule`.
+You can of course pass any arbitrary `props` object as the second argument to `renderRule`.
 
 <a name="map-rule"></a>
 
@@ -314,7 +306,7 @@ The first option requires more code in your components. The second option compro
 
 As a third option you can use the `mapStyles` helper.
 
-This helper works in _exactly the same way_ as `mapRules`, but rather than returning an object map of computed functions, it returns a single computed function.
+This helper works in _exactly the same way_ as `mapRules`, but rather than returning an object map of computed prop functions, it returns a single computed function.
 
 The computed function returned from the `mapStyles` helper will then return an object map of class names that are the result of rendering your `rules`.
 
@@ -395,12 +387,12 @@ To render a single Fela `rule` you can either use the Fela Renderer instance's `
 ```js
 import { renderRule } from 'vue-fela'
 
-const rule = ({ color }) => ({ color })
+const rule = ({ size }) => ({ width: size, height: size })
 
 export default {
   functional: true,
   inject: [ 'fela' ],
-  props: { color: String },
+  props: { size: Number },
   render(h, { props, children, injections }) {
     const renderer = injections.fela
     // The following 2 lines return exactly the same value
@@ -408,7 +400,7 @@ export default {
     const class2 = renderer.renderRule(rule, props)
     // class1 === class2
     return h('span', {
-      class: [ class1, class2 ]
+      class: [ class1, class2 ] // a b
     }, children)
   }
 }
@@ -465,52 +457,51 @@ To render the styles cached by the Fela Renderer we need to use `fela-dom`.
 
 However, since Fela works on both the [client][fela-client] and the [server][fela-server], the method for rendering the cached styles differs between environments.
 
-To simplify this, `VueFela` includes a `fela` provider component to handle the logic of determining what to do in each environment.
+To simplify this, `VueFela` handles the logic of determining what to do in each environment automatically.
 
-### Fela Provider
+### Plugin Options
 
-When the `VueFela` plugin is installed it registers a `fela` component in Vue's global scope.
+You can disable automatic rendering via the plugin options when installing `VueFela`:
 
-To render the cached styles, you must include the `fela` component _once_ in your application:
+```js
+import Vue from 'vue'
+import VueFela from 'vue-fela'
+import { createRenderer } from 'fela'
+import { render } from 'fela-dom'
 
-```vue
-<template>
-  <div id="app">
-    <fela/>
-  </div>
-</template>
+const renderer = createRenderer()
+
+Vue.use(VueFela, {
+  renderer, // required
+  autoRender: false
+})
+
+render(renderer)
 ```
 
-Alternatively you can make the `fela` component the root of your application and nest the rest of your markup within it:
+Options that can be configured when the plugin is installed are as follows:
 
-```vue
-<template>
-  <fela id="app">
-    <h1>This will be rendered</h1>
-    <h2>So will this</h1>
-  </fela>
-</template>
-```
-
-The `fela` provider component has 4 props that can be optionally set:
-
-Attribute | Type | Default | Description
+Option | Type | Default | Description
 ----------|------|---------|------------
-`tag` | `String` | `div` | HTML tag or registered component name
+`renderer` | `Object` | | [Fela Renderer][fela-renderer] instance. **Required**
+`autoRender` | `Boolean` | `true` | Enable/disable automatic rendering. When set to `false` the `ssr`, `metaKeyName` and `metaTagId` properties are ignored
 `ssr` | `Boolean` | `true` | Enable/disable SSR
-`props` | `Object` | `undefined` | Props data to pass when `tag` is set to a registered component name
-`metaTagId` | `String` | `hid` | Vue Meta `tagIDKeyName` [option][vue-meta-options]<br>This is [configured to work with Nuxt][nuxt-meta] by default
 `metaKeyName` | `String` | `head` | Vue Meta `keyName` [option][vue-meta-options]<br>This is [configured to work with Nuxt][nuxt-meta] by default
+`metaTagId` | `String` | `hid` | Vue Meta `tagIDKeyName` [option][vue-meta-options]<br>This is [configured to work with Nuxt][nuxt-meta] by default
 
 An example using [Vue Meta's default values][vue-meta-options] while disabling SSR can be seen below:
 
-```vue
-<template>
-  <fela tag="main"
-    meta-tag-id="vmid"
-    meta-key-name="metaInfo"
-    :ssr="false"/>
-</template>
+```js
+import Vue from 'vue'
+import VueFela from 'vue-fela'
+import { createRenderer } from 'fela'
+
+Vue.use(VueFela, {
+  renderer: createRenderer(), // required
+  metaKeyName: 'metaInfo,
+  metaTagId: 'vmid',
+  ssr: false
+})
 ```
 
 ### Universal Rendering
@@ -519,7 +510,7 @@ The easiest way to create universal Vue applications is with [Nuxt][nuxt]. Nuxt 
 
 Nuxt uses `vue-meta` to render and update tags in the `<head>` of your pages. [Vue Meta][vue-meta] provides the mechanism Vue Fela needs for rendering the cached styles on the server and sending them to the client.
 
-Because of this, the `fela` provider component is setup to work with `vue-meta` using [Nuxt's configuration options][nuxt-meta] by default.
+Because of this, the `vue-fela` plugin is configured to work with `vue-meta` using [Nuxt's configuration options][nuxt-meta] by default.
 
 ### Nuxt Example
 
@@ -531,19 +522,11 @@ import Vue from 'vue'
 import VueFela from 'vue-fela'
 import { createRenderer } from 'fela'
 
-// 1. Install the plugin
-Vue.use(VueFela)
-
-// 2. Create a fela renderer
+// 1. Create a Fela renderer
 const renderer = createRenderer()
 
-// 3. Inject and provide the renderer on a 'fela' key
-export default ({ app }, inject) => {
-  inject('fela', renderer)
-  app.provide = Object.assign({
-    fela: renderer
-  }, app.provide)
-}
+// 2. Install the plugin and pass the renderer as an option
+Vue.use(VueFela, { renderer })
 ```
 
 Then add the plugin to Nuxt's configuration:
@@ -588,8 +571,6 @@ yarn test-coverage
 ## License
 
 [MIT][mit]
-
-
 
 [vue]: https://vuejs.org
 [vue-sfc]: https://vuejs.org/v2/guide/single-file-components.html
