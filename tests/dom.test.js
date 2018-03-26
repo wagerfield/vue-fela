@@ -3,8 +3,7 @@ import {
   mapStyle,
   renderServerStyles,
   renderClientStyles
-} from '../lib/renderer'
-import { MetaInfo } from './test-helpers'
+} from '../lib/dom'
 
 const fela = createRenderer()
 
@@ -20,7 +19,7 @@ const rule3 = ({ width, color = 'red' }) => ({
   [`@media (min-width: ${width})`]: { color }
 })
 
-describe('Renderer', () => {
+describe('DOM', () => {
 
   beforeEach(fela.clear)
 
@@ -28,7 +27,7 @@ describe('Renderer', () => {
 
     it('renders expected snapshots', () => {
       const css = '.a{color:black}'
-      const media = '(min-width: 300px)'
+      const media = '(min-width:300px)'
       expect(renderTag()).toMatchSnapshot()
       expect(renderTag('RULE', css)).toMatchSnapshot()
       expect(renderTag('STATIC', css)).toMatchSnapshot()
@@ -56,9 +55,8 @@ describe('Renderer', () => {
         boxSizing: 'border-box'
       }, '*')
 
-      const metaInfo = renderServerStyles(fela, tagId)
-      expect(metaInfo).toEqual(MetaInfo)
-      expect(metaInfo).toMatchSnapshot()
+      const styles = renderServerStyles(fela, tagId)
+      expect(styles).toMatchSnapshot()
     })
   })
 
