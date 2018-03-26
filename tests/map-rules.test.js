@@ -10,8 +10,8 @@ import {
 import props from './component-props'
 import rules from './component-rules'
 
-const localVue = installPlugin()
-const fela = createRenderer()
+const renderer = createRenderer()
+const localVue = installPlugin({ renderer })
 
 const props1 = { outerRadius: 0, innerRadius: 0, active: false }
 const props2 = { outerRadius: 4, innerRadius: 2, active: true }
@@ -40,7 +40,7 @@ const testShape = (optMap, shape) => {
 const testPropsData = (optMap, propsData) => {
   it('renders expected snapshots from propsData', () => {
     const component = createComponent(optMap)
-    const wrapper = wrapComponent(component, localVue, fela, propsData)
+    const wrapper = wrapComponent(component, localVue, { propsData })
     testSnapshot(wrapper)
   })
 }
@@ -48,7 +48,7 @@ const testPropsData = (optMap, propsData) => {
 const testOptProps = (optMap, optProps) => {
   it('renders expected snapshots from optProps', () => {
     const component = createComponent(optMap, optProps)
-    const wrapper = wrapComponent(component, localVue, fela)
+    const wrapper = wrapComponent(component, localVue)
     testSnapshot(wrapper)
   })
 }
@@ -56,8 +56,8 @@ const testOptProps = (optMap, optProps) => {
 const testPrecedence = (optMap, optProps, propsData) => {
   it('optProps takes precedence over propsData', () => {
     const component = createComponent(optMap, optProps)
-    const wrapper1 = wrapComponent(component, localVue, fela)
-    const wrapper2 = wrapComponent(component, localVue, fela, propsData)
+    const wrapper1 = wrapComponent(component, localVue)
+    const wrapper2 = wrapComponent(component, localVue, { propsData })
     expect(wrapper1.vm.className).toBe(wrapper2.vm.className)
   })
 }
@@ -73,7 +73,7 @@ const testSuite = (shape, optMap) => {
 
 describe('mapRules(rule, optMap, optProps)', () => {
 
-  beforeEach(fela.clear)
+  beforeEach(renderer.clear)
 
   it('returns an object', () => {
     expect(mapRules(rules)).toEqual(expect.any(Object))

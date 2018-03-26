@@ -7,21 +7,21 @@ import {
 } from './test-helpers'
 import component from './component.vue'
 
-const localVue = installPlugin()
-const fela = createRenderer()
+const renderer = createRenderer()
+const localVue = installPlugin({ renderer })
 
 describe('component.vue', () => {
 
-  beforeEach(fela.clear)
+  beforeEach(renderer.clear)
 
   it('has $fela renderer property', () => {
-    const wrapper = wrapComponent(component, localVue, fela)
+    const wrapper = wrapComponent(component, localVue)
     expect(wrapper.vm.$fela).toEqual(FelaRenderer)
-    expect(wrapper.vm.$fela).toBe(fela)
+    expect(wrapper.vm.$fela).toBe(renderer)
   })
 
   it('renders expected snapshots', () => {
-    const wrapper = wrapComponent(component, localVue, fela)
+    const wrapper = wrapComponent(component, localVue)
 
     testSnapshot(wrapper)
 
