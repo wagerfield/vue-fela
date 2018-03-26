@@ -2,7 +2,7 @@ import { createRenderer } from 'fela'
 import { renderRules } from '../index'
 import rules from './component-rules'
 
-const fela = createRenderer()
+const renderer = createRenderer()
 const props = {
   outerRadius: 0,
   innerRadius: 0,
@@ -10,15 +10,15 @@ const props = {
 }
 
 const testSnapshot = (optMap) => {
-  expect(renderRules(fela, rules, props, optMap)).toMatchSnapshot()
+  expect(renderRules(renderer, rules, props, optMap)).toMatchSnapshot()
 }
 
 describe('renderRules(renderer, rules, props, optMap)', () => {
 
-  beforeEach(fela.clear)
+  beforeEach(renderer.clear)
 
   it('returns an object', () => {
-    expect(renderRules(fela, rules, props)).toEqual(expect.any(Object))
+    expect(renderRules(renderer, rules, props)).toEqual(expect.any(Object))
   })
 
   it('renders expected snapshot', () => {

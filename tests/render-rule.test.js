@@ -2,7 +2,7 @@ import { createRenderer } from 'fela'
 import { renderRule } from '../index'
 import rules from './component-rules'
 
-const fela = createRenderer()
+const renderer = createRenderer()
 const rule = rules.border
 const props = {
   outerRadius: 0,
@@ -12,13 +12,13 @@ const props = {
 
 describe('renderRule(renderer, rule, props)', () => {
 
-  beforeEach(fela.clear)
+  beforeEach(renderer.clear)
 
   it('returns a string', () => {
-    expect(renderRule(fela, rule, props)).toEqual(expect.any(String))
+    expect(renderRule(renderer, rule, props)).toEqual(expect.any(String))
   })
 
   it('renders expected snapshot', () => {
-    expect(renderRule(fela, rule, props)).toMatchSnapshot()
+    expect(renderRule(renderer, rule, props)).toMatchSnapshot()
   })
 })
