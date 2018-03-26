@@ -1,5 +1,6 @@
 var install = require('./lib/install')
 var helpers = require('./lib/helpers')
+var dom = require('./lib/dom')
 
 module.exports = {
   install: install,
@@ -7,5 +8,7 @@ module.exports = {
   mapRules: helpers.mapRules,
   mapStyles: helpers.mapStyles,
   renderRule: helpers.renderRule,
-  renderRules: helpers.renderRules
+  renderRules: helpers.renderRules,
+  renderClientStyles: dom.renderClientStyles,
+  renderServerStyles: dom.renderServerStyles
 }
