@@ -1,11 +1,11 @@
 <template>
-  <fela id="app" tag="main" :class="container">
-    <h1 v-text="view.text" @click="cycle" :class="text"/>
-  </fela>
+  <div :class="styles.container">
+    <h1 v-text="view.text" @click="cycle" :class="styles.text"/>
+  </div>
 </template>
 
 <script>
-import { mapRules } from '../../index'
+import { mapStyles } from '../../index'
 
 const views = [{
   text: 'Nuxt',
@@ -41,7 +41,7 @@ export default {
     }
   },
   computed: {
-    ...mapRules(rules),
+    styles: mapStyles(rules),
     view() {
       return views[this.index]
     }
