@@ -9,8 +9,10 @@ import {
   createComponent
 } from './test-helpers'
 
-// const rule1 = ({ width }) => ({ width })
-// const rule2 = ({ color }) => ({ color })
+const ssrFlag = '_hasRenderedStyles'
+
+const rule1 = ({ width }) => ({ width })
+const rule2 = ({ color }) => ({ color })
 
 describe('Plugin', () => {
 
@@ -89,90 +91,122 @@ describe('Plugin', () => {
     expect(childProvide.foo).toBe('bar')
   })
 
-  it('calls renderClientStyles from root component when created', () => {
-    const spy = jest.spyOn(DOM, 'renderClientStyles')
+  describe('client', () => {
 
-    expect(spy).toHaveBeenCalledTimes(0)
-    installPlugin({ renderer: createRenderer() })
-    expect(spy).toHaveBeenCalledTimes(1)
+    it('calls renderClientStyles when plugin is installed', () => {
+      const spy = jest.spyOn(DOM, 'renderClientStyles')
+      const renderer = createRenderer()
 
-    spy.mockRestore()
+      expect(spy).toHaveBeenCalledTimes(0)
+      installPlugin({ renderer })
+      expect(spy).toHaveBeenCalledTimes(1)
+
+      spy.mockRestore()
+    })
+
+    it('does not call renderClientStyles when autoRender option is false', () => {
+      const spy = jest.spyOn(DOM, 'renderClientStyles')
+      const renderer = createRenderer()
+
+      expect(spy).toHaveBeenCalledTimes(0)
+      installPlugin({ renderer, autoRender: false })
+      expect(spy).toHaveBeenCalledTimes(0)
+
+      spy.mockRestore()
+    })
   })
 
-  // it('adds meta function to all component instances', () => {
-  //   const renderer = createRenderer()
-  //   const localVue = installPlugin({ renderer })
+  describe('server', () => {
 
-  //   renderer.renderRule(rule1, { width: '8px' })
-  //   renderer.renderRule(rule2, { color: 'red' })
+    it('adds ssr flag to root component instance', () => {
+      const renderer = createRenderer()
+      const localVue = installPlugin({ renderer }, true)
 
-  //   const child1 = createComponent('div')
-  //   const child2 = createComponent('div')
-  //   const parent = createComponent('div', null, [ child1, child2 ])
+      const child = createComponent('div')
+      const parent = createComponent('div', null, [ child ])
 
-  //   const parentWrapper = wrapComponent(parent, localVue)
-  //   const childWrapper1 = parentWrapper.find(child1)
-  //   const childWrapper2 = parentWrapper.find(child2)
+      const parentWrapper = wrapComponent(parent, localVue)
+      const childWrapper = parentWrapper.find(child)
 
-  //   const parentMetaFn = parentWrapper.vm.$options.head
-  //   const childMetaFn1 = childWrapper1.vm.$options.head
-  //   const childMetaFn2 = childWrapper2.vm.$options.head
+      expect(parentWrapper.vm[ssrFlag]).toEqual(expect.any(Boolean))
+      expect(childWrapper.vm[ssrFlag]).toBeUndefined()
+    })
 
-  //   expect(parentMetaFn).toEqual(expect.any(Function))
-  //   expect(childMetaFn1).toEqual(expect.any(Function))
-  //   expect(childMetaFn2).toEqual(expect.any(Function))
+    it('adds head meta function to all component instances', () => {
+      const renderer = createRenderer()
+      const localVue = installPlugin({ renderer }, true)
 
-  //   expect(parentMetaFn).toBe(childMetaFn1)
-  //   expect(parentMetaFn).toBe(childMetaFn2)
+      renderer.renderRule(rule1, { width: '8px' })
+      renderer.renderRule(rule2, { color: 'red' })
 
-  //   expect(parentMetaFn()).toMatchSnapshot()
-  // })
+      const child1 = createComponent('div')
+      const child2 = createComponent('div')
+      const parent = createComponent('div', null, [ child1, child2 ])
 
-  it('does not add meta function when ssr option is false', () => {
-    const renderer = createRenderer()
-    const localVue = installPlugin({ renderer, ssr: false })
+      const parentWrapper = wrapComponent(parent, localVue)
+      const childWrapper1 = parentWrapper.find(child1)
+      const childWrapper2 = parentWrapper.find(child2)
 
-    const parent = createComponent('div')
-    const wrapper = wrapComponent(parent, localVue)
+      const parentMetaFn = parentWrapper.vm.$options.head
+      const childMetaFn1 = childWrapper1.vm.$options.head
+      const childMetaFn2 = childWrapper2.vm.$options.head
 
-    const metaFn = wrapper.vm.$options.head
-    expect(metaFn).toBeUndefined()
-  })
+      expect(parentMetaFn).toEqual(expect.any(Function))
+      expect(childMetaFn1).toEqual(expect.any(Function))
+      expect(childMetaFn2).toEqual(expect.any(Function))
 
-  // it('uses metaKey and metaTagId options', () => {
-  //   const metaTagId = 'vmid'
-  //   const metaKeyName = 'metaInfo'
-  //   const renderer = createRenderer()
-  //   const localVue = installPlugin({ renderer, metaTagId, metaKeyName })
+      expect(parentMetaFn).toBe(childMetaFn1)
+      expect(parentMetaFn).toBe(childMetaFn2)
 
-  //   renderer.renderRule(rule1, { width: '8px' })
-  //   renderer.renderRule(rule2, { color: 'red' })
+      expect(parentMetaFn.call(parentWrapper.vm)).toMatchSnapshot()
+      expect(childMetaFn1.call(childWrapper1.vm)).toMatchSnapshot()
+      expect(childMetaFn2.call(childWrapper2.vm)).toMatchSnapshot()
+    })
 
-  //   const parent = createComponent('div')
-  //   const wrapper = wrapComponent(parent, localVue)
+    it('uses metaTagId and metaKeyName options', () => {
+      const metaTagId = 'vmid'
+      const metaKeyName = 'metaInfo'
+      const renderer = createRenderer()
+      const localVue = installPlugin({
+        renderer,
+        metaTagId,
+        metaKeyName
+      }, true)
 
-  //   const metaFn = wrapper.vm.$options[metaKeyName]
-  //   expect(metaFn).toEqual(expect.any(Function))
+      renderer.renderRule(rule1, { width: '8px' })
+      renderer.renderRule(rule2, { color: 'red' })
 
-  //   expect(metaFn()).toMatchSnapshot()
-  // })
+      const parent = createComponent('div')
+      const wrapper = wrapComponent(parent, localVue)
 
-  it('does not call render functions when autoRender option is false', () => {
-    const renderer = createRenderer()
-    const localVue = installPlugin({ renderer, autoRender: false })
+      const metaFn = wrapper.vm.$options[metaKeyName]
+      expect(metaFn).toEqual(expect.any(Function))
 
-    const clientSpy = jest.spyOn(DOM, 'renderClientStyles')
-    const serverSpy = jest.spyOn(DOM, 'renderClientStyles')
+      expect(metaFn.call(wrapper.vm)).toMatchSnapshot()
+    })
 
-    expect(clientSpy).toHaveBeenCalledTimes(0)
-    expect(serverSpy).toHaveBeenCalledTimes(0)
+    it('does not add ssr flag when autoRender option is false', () => {
+      const localVue = installPlugin({
+        renderer: createRenderer(),
+        autoRender: false
+      }, true)
 
-    wrapComponent(createComponent('div'), localVue)
+      const parent = createComponent('div')
+      const wrapper = wrapComponent(parent, localVue)
 
-    expect(clientSpy).toHaveBeenCalledTimes(0)
-    expect(serverSpy).toHaveBeenCalledTimes(0)
+      expect(wrapper.vm[ssrFlag]).toBeUndefined()
+    })
 
-    clientSpy.mockRestore()
-    serverSpy.mockRestore()
+    it('does not add ssr flag when ssr option is false', () => {
+      const localVue = installPlugin({
+        renderer: createRenderer(),
+        ssr: false
+      }, true)
+
+      const parent = createComponent('div')
+      const wrapper = wrapComponent(parent, localVue)
+
+      expect(wrapper.vm[ssrFlag]).toBeUndefined()
+    })
   })
 })
