@@ -13,8 +13,15 @@ export const FelaRenderer = expect.objectContaining({
   plugins: expect.any(Array)
 })
 
-export const installPlugin = (options) => {
+export const setLocalVueEnv = (localVue, isServer) => {
+  Object.defineProperty(localVue.prototype, '$isServer', {
+    get: () => isServer
+  })
+}
+
+export const installPlugin = (options, isServer = false) => {
   const localVue = createLocalVue()
+  setLocalVueEnv(localVue, isServer)
   localVue.use(VueFela, options)
   return localVue
 }
