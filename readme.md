@@ -51,7 +51,7 @@ Since a [Fela Renderer][fela-renderer] instance is assigned to Vue's `prototype`
 
 See the [Single File Component][vue-sfc] example below:
 
-```vue
+```html
 <template>
   <div :class="className"/>
 </template>
@@ -88,7 +88,7 @@ You can of course pass any arbitrary `props` object as the second argument to `r
 
 To save having to define a computed prop function and return `this.$fela.renderRule(rule, props)` each time, a `mapRule` helper is provided:
 
-```vue
+```html
 <template>
   <div :class="className"/>
 </template>
@@ -136,7 +136,7 @@ Since the class names being returned from `mapRule` are assigned to the componen
 
 Taking it one step further, the `mapRules` helper repeats the work of `mapRule`—but expects an object map of `rules` rather than a single `rule` function:
 
-```vue
+```html
 <template>
   <div :class="container">
     <h1 :class="heading">Kitten Socks</h1>
@@ -203,7 +203,7 @@ export default {
 
 ...and then `import` them into your Vue component:
 
-```vue
+```html
 <template>
   <div :class="container">
     <h1 :class="heading">Kitten Socks</h1>
@@ -253,7 +253,7 @@ The `optMap` argument can either be:
 
 For example, using the same component and rules map from the example above:
 
-```vue
+```html
 <template>
   <div :class="container">
     <h1 :class="title">Kitten Socks</h1>
@@ -312,7 +312,7 @@ The computed function returned from the `mapStyles` helper will then return an o
 
 This allows you to assign all your rules to a single `computed` property eg. `styles` and render the result of each rule within your template using dot syntax eg. `styles.icon`:
 
-```vue
+```html
 <template>
   <div>
     <svg :class="styles.icon">...</svg>
@@ -498,7 +498,7 @@ import { createRenderer } from 'fela'
 
 Vue.use(VueFela, {
   renderer: createRenderer(), // required
-  metaKeyName: 'metaInfo,
+  metaKeyName: 'metaInfo',
   metaTagId: 'vmid',
   ssr: false
 })
