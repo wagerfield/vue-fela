@@ -2,6 +2,7 @@
 
 exports[`DOM mapStyle(style) renders expected snapshots 1`] = `
 Object {
+  "once": true,
   "type": "text/css",
 }
 `;
@@ -11,6 +12,7 @@ Object {
   "cssText": ".a{color:black}",
   "data-fela-type": "RULE",
   "hid": "rule",
+  "once": true,
   "type": "text/css",
 }
 `;
@@ -20,6 +22,7 @@ Object {
   "cssText": ".a{color:black}",
   "data-fela-type": "STATIC",
   "hid": "static",
+  "once": true,
   "type": "text/css",
 }
 `;
@@ -30,6 +33,7 @@ Object {
   "data-fela-type": "RULE",
   "hid": "rule(min-width:300px)",
   "media": "(min-width:300px)",
+  "once": true,
   "type": "text/css",
 }
 `;
@@ -41,6 +45,7 @@ Object {
   "data-fela-type": "RULE",
   "hid": "rule[support](min-width:300px)",
   "media": "(min-width:300px)",
+  "once": true,
   "type": "text/css",
 }
 `;
@@ -51,6 +56,7 @@ Object {
   "data-fela-support": true,
   "data-fela-type": "RULE",
   "hid": "rule[support]",
+  "once": true,
   "type": "text/css",
 }
 `;
@@ -62,6 +68,7 @@ Array [
     "data-fela-rehydration": 3,
     "data-fela-type": "FONT",
     "hid": "font",
+    "once": true,
     "type": "text/css",
   },
   Object {
@@ -69,6 +76,7 @@ Array [
     "data-fela-rehydration": 3,
     "data-fela-type": "STATIC",
     "hid": "static",
+    "once": true,
     "type": "text/css",
   },
   Object {
@@ -76,6 +84,7 @@ Array [
     "data-fela-rehydration": 3,
     "data-fela-type": "RULE",
     "hid": "rule",
+    "once": true,
     "type": "text/css",
   },
   Object {
@@ -84,6 +93,7 @@ Array [
     "data-fela-type": "RULE",
     "hid": "rule(min-width: 8px)",
     "media": "(min-width: 8px)",
+    "once": true,
     "type": "text/css",
   },
 ]
