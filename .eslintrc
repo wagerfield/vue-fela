@@ -9,6 +9,7 @@
     "guard-for-in": "off",
     "no-invalid-this": "off",
     "no-mixed-operators": "off",
+    "no-return-assign": "off",
     "no-undefined": "off",
     "no-underscore-dangle": "off",
     "no-var": "off"

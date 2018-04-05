@@ -9,7 +9,7 @@ import {
   createComponent
 } from './test-helpers'
 
-const ssrFlag = '_hasRenderedStyles'
+const ssrMetaCache = '_felaMeta'
 
 const rule1 = ({ width }) => ({ width })
 const rule2 = ({ color }) => ({ color })
@@ -118,7 +118,7 @@ describe('Plugin', () => {
 
   describe('server', () => {
 
-    it('adds ssr flag to root component instance', () => {
+    it('adds ssr meta cache to root component instance', () => {
       const renderer = createRenderer()
       const localVue = installPlugin({ renderer }, true)
 
@@ -128,8 +128,13 @@ describe('Plugin', () => {
       const parentWrapper = wrapComponent(parent, localVue)
       const childWrapper = parentWrapper.find(child)
 
-      expect(parentWrapper.vm[ssrFlag]).toEqual(expect.any(Boolean))
-      expect(childWrapper.vm[ssrFlag]).toBeUndefined()
+      parentWrapper.vm.$options.head.call(parentWrapper.vm)
+      expect(parentWrapper.vm[ssrMetaCache]).toEqual(expect.objectContaining({
+        style: expect.any(Array)
+      }))
+
+      childWrapper.vm.$options.head.call(childWrapper.vm)
+      expect(childWrapper.vm[ssrMetaCache]).toBeUndefined()
     })
 
     it('adds head meta function to all component instances', () => {
@@ -185,7 +190,7 @@ describe('Plugin', () => {
       expect(metaFn.call(wrapper.vm)).toMatchSnapshot()
     })
 
-    it('does not add ssr flag when autoRender option is false', () => {
+    it('does not add ssr meta cache when autoRender option is false', () => {
       const localVue = installPlugin({
         renderer: createRenderer(),
         autoRender: false
@@ -194,7 +199,7 @@ describe('Plugin', () => {
       const parent = createComponent('div')
       const wrapper = wrapComponent(parent, localVue)
 
-      expect(wrapper.vm[ssrFlag]).toBeUndefined()
+      expect(wrapper.vm[ssrMetaCache]).toBeUndefined()
     })
 
     it('does not add ssr flag when ssr option is false', () => {
@@ -206,7 +211,7 @@ describe('Plugin', () => {
       const parent = createComponent('div')
       const wrapper = wrapComponent(parent, localVue)
 
-      expect(wrapper.vm[ssrFlag]).toBeUndefined()
+      expect(wrapper.vm[ssrMetaCache]).toBeUndefined()
     })
   })
 })
