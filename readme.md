@@ -476,6 +476,7 @@ Vue.use(VueFela, {
   autoRender: false
 })
 
+// Manually render the styles (client-side)
 render(renderer)
 ```
 
@@ -484,10 +485,9 @@ Options that can be configured when the plugin is installed are as follows:
 Option | Type | Default | Description
 ----------|------|---------|------------
 `renderer` | `Object` | | [Fela Renderer][fela-renderer] instance. **Required**
-`autoRender` | `Boolean` | `true` | Enable/disable automatic rendering. When set to `false` the `ssr`, `metaKeyName` and `metaTagId` properties are ignored
+`autoRender` | `Boolean` | `true` | Enable/disable automatic rendering. When set to `false` the `ssr` and `metaKeyName` properties are ignored
 `ssr` | `Boolean` | `true` | Enable/disable SSR
 `metaKeyName` | `String` | `head` | Vue Meta `keyName` [option][vue-meta-options]<br>This is [configured to work with Nuxt][nuxt-meta] by default
-`metaTagId` | `String` | `hid` | Vue Meta `tagIDKeyName` [option][vue-meta-options]<br>This is [configured to work with Nuxt][nuxt-meta] by default
 
 An example using [Vue Meta's default values][vue-meta-options] while disabling SSR can be seen below:
 
@@ -499,7 +499,6 @@ import { createRenderer } from 'fela'
 Vue.use(VueFela, {
   renderer: createRenderer(), // required
   metaKeyName: 'metaInfo',
-  metaTagId: 'vmid',
   ssr: false
 })
 ```
