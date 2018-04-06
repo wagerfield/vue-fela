@@ -9,7 +9,7 @@ import {
   createComponent
 } from './test-helpers'
 
-const ssrMetaCache = '_felaMeta'
+const stylesCache = '_felaStyles'
 
 const rule1 = ({ width }) => ({ width })
 const rule2 = ({ color }) => ({ color })
@@ -129,12 +129,10 @@ describe('Plugin', () => {
       const childWrapper = parentWrapper.find(child)
 
       parentWrapper.vm.$options.head.call(parentWrapper.vm)
-      expect(parentWrapper.vm[ssrMetaCache]).toEqual(expect.objectContaining({
-        style: expect.any(Array)
-      }))
+      expect(parentWrapper.vm[stylesCache]).toEqual(expect.any(Array))
 
       childWrapper.vm.$options.head.call(childWrapper.vm)
-      expect(childWrapper.vm[ssrMetaCache]).toBeUndefined()
+      expect(childWrapper.vm[stylesCache]).toBeUndefined()
     })
 
     it('adds head meta function to all component instances', () => {
@@ -199,7 +197,7 @@ describe('Plugin', () => {
       const parent = createComponent('div')
       const wrapper = wrapComponent(parent, localVue)
 
-      expect(wrapper.vm[ssrMetaCache]).toBeUndefined()
+      expect(wrapper.vm[stylesCache]).toBeUndefined()
     })
 
     it('does not add ssr flag when ssr option is false', () => {
@@ -211,7 +209,7 @@ describe('Plugin', () => {
       const parent = createComponent('div')
       const wrapper = wrapComponent(parent, localVue)
 
-      expect(wrapper.vm[ssrMetaCache]).toBeUndefined()
+      expect(wrapper.vm[stylesCache]).toBeUndefined()
     })
   })
 })

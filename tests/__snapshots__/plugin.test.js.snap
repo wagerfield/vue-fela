@@ -7,7 +7,6 @@ Object {
       "cssText": ".a{width:8px}.b{color:red}",
       "data-fela-rehydration": 2,
       "data-fela-type": "RULE",
-      "hid": "rule",
       "once": true,
       "type": "text/css",
     },
@@ -28,7 +27,6 @@ Object {
       "data-fela-type": "RULE",
       "once": true,
       "type": "text/css",
-      "vmid": "rule",
     },
   ],
 }
