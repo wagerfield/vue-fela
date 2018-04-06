@@ -7,11 +7,8 @@ import {
 
 const fela = createRenderer()
 
-const tagId = 'hid'
-
-const createTag = mapStyle(tagId)
-const renderTag = (type, css, media, support) =>
-  createTag({ type, css, media, support })
+const renderStyle = (type, css, media, support) =>
+  mapStyle({ type, css, media, support })
 
 const rule1 = ({ width }) => ({ width })
 const rule2 = ({ color }) => ({ color })
@@ -28,12 +25,12 @@ describe('DOM', () => {
     it('renders expected snapshots', () => {
       const css = '.a{color:black}'
       const media = '(min-width:300px)'
-      expect(renderTag()).toMatchSnapshot()
-      expect(renderTag('RULE', css)).toMatchSnapshot()
-      expect(renderTag('STATIC', css)).toMatchSnapshot()
-      expect(renderTag('RULE', css, media)).toMatchSnapshot()
-      expect(renderTag('RULE', css, media, true)).toMatchSnapshot()
-      expect(renderTag('RULE', css, false, true)).toMatchSnapshot()
+      expect(renderStyle()).toMatchSnapshot()
+      expect(renderStyle('RULE', css)).toMatchSnapshot()
+      expect(renderStyle('STATIC', css)).toMatchSnapshot()
+      expect(renderStyle('RULE', css, media)).toMatchSnapshot()
+      expect(renderStyle('RULE', css, media, true)).toMatchSnapshot()
+      expect(renderStyle('RULE', css, false, true)).toMatchSnapshot()
     })
   })
 
@@ -55,7 +52,7 @@ describe('DOM', () => {
         boxSizing: 'border-box'
       }, '*')
 
-      const styles = renderServerStyles(fela, tagId)
+      const styles = renderServerStyles(fela)
       expect(styles).toMatchSnapshot()
     })
   })

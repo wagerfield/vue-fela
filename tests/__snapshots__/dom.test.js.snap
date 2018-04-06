@@ -11,7 +11,6 @@ exports[`DOM mapStyle(style) renders expected snapshots 2`] = `
 Object {
   "cssText": ".a{color:black}",
   "data-fela-type": "RULE",
-  "hid": "rule",
   "once": true,
   "type": "text/css",
 }
@@ -21,7 +20,6 @@ exports[`DOM mapStyle(style) renders expected snapshots 3`] = `
 Object {
   "cssText": ".a{color:black}",
   "data-fela-type": "STATIC",
-  "hid": "static",
   "once": true,
   "type": "text/css",
 }
@@ -31,7 +29,6 @@ exports[`DOM mapStyle(style) renders expected snapshots 4`] = `
 Object {
   "cssText": ".a{color:black}",
   "data-fela-type": "RULE",
-  "hid": "rule(min-width:300px)",
   "media": "(min-width:300px)",
   "once": true,
   "type": "text/css",
@@ -43,7 +40,6 @@ Object {
   "cssText": ".a{color:black}",
   "data-fela-support": true,
   "data-fela-type": "RULE",
-  "hid": "rule[support](min-width:300px)",
   "media": "(min-width:300px)",
   "once": true,
   "type": "text/css",
@@ -55,7 +51,6 @@ Object {
   "cssText": ".a{color:black}",
   "data-fela-support": true,
   "data-fela-type": "RULE",
-  "hid": "rule[support]",
   "once": true,
   "type": "text/css",
 }
@@ -67,7 +62,6 @@ Array [
     "cssText": "@font-face{font-weight:300;src:url('../fonts/Lato.ttf') format('truetype'),url('../fonts/Lato.eot') format('embedded-opentype');font-family:\\"Lato\\"}",
     "data-fela-rehydration": 3,
     "data-fela-type": "FONT",
-    "hid": "font",
     "once": true,
     "type": "text/css",
   },
@@ -75,7 +69,6 @@ Array [
     "cssText": "body{margin:0}*{box-sizing:border-box}",
     "data-fela-rehydration": 3,
     "data-fela-type": "STATIC",
-    "hid": "static",
     "once": true,
     "type": "text/css",
   },
@@ -83,7 +76,6 @@ Array [
     "cssText": ".a{width:8px}.b{color:red}",
     "data-fela-rehydration": 3,
     "data-fela-type": "RULE",
-    "hid": "rule",
     "once": true,
     "type": "text/css",
   },
@@ -91,7 +83,6 @@ Array [
     "cssText": ".c{color:red}",
     "data-fela-rehydration": 3,
     "data-fela-type": "RULE",
-    "hid": "rule(min-width: 8px)",
     "media": "(min-width: 8px)",
     "once": true,
     "type": "text/css",
